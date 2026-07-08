@@ -1,6 +1,7 @@
 package com.example.simbalita.ui.ibu;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -72,6 +73,48 @@ public class IbuHomeFragment extends Fragment {
 
         tvWelcome.setText("Halo, " + motherName + " 👋");
 
+        // Drawer Menu Toggle
+        ImageView ivMenu = view.findViewById(R.id.iv_home_menu);
+        if (ivMenu != null) {
+            ivMenu.setOnClickListener(v -> {
+                if (requireActivity() instanceof IbuMainActivity) {
+                    ((IbuMainActivity) requireActivity()).openDrawer();
+                }
+            });
+        }
+
+        // Notification icon click listener
+        ImageView ivNotification = view.findViewById(R.id.iv_home_notification);
+        if (ivNotification != null) {
+            ivNotification.setOnClickListener(v -> {
+                if (requireActivity() instanceof IbuMainActivity) {
+                    IbuMainActivity main = (IbuMainActivity) requireActivity();
+                    com.google.android.material.bottomnavigation.BottomNavigationView nav = main.findViewById(R.id.bottom_nav_ibu);
+                    if (nav != null) {
+                        nav.setSelectedItemId(R.id.menu_notifikasi);
+                    }
+                }
+            });
+        }
+
+        // Card clicks redirection
+        if (llMeasurements != null) {
+            llMeasurements.setOnClickListener(v -> {
+                Intent intent = new Intent(requireContext(), RiwayatPemeriksaanActivity.class);
+                startActivity(intent);
+            });
+        }
+
+        if (cvScheduleCard != null) {
+            cvScheduleCard.setOnClickListener(v -> {
+                if (requireActivity() instanceof IbuMainActivity) {
+                    IbuMainActivity main = (IbuMainActivity) requireActivity();
+                    main.loadFragment(new IbuJadwalFragment());
+                    main.uncheckBottomNav();
+                }
+            });
+        }
+
         loadChildrenData();
         loadUpcomingSchedule();
 
@@ -128,7 +171,7 @@ public class IbuHomeFragment extends Fragment {
         spChild.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Child selectedChild = childList[position];
+                Child selectedChild = childList.get(position);
                 
                 // Save selection
                 pref.edit().putInt("selected_child_id", selectedChild.getId()).apply();

@@ -38,7 +38,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Child child = childList[position];
+        Child child = childList.get(position);
         holder.tvName.setText(child.getName());
 
         // Calculate age

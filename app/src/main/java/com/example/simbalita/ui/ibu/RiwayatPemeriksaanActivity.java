@@ -29,6 +29,17 @@ public class RiwayatPemeriksaanActivity extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
         childId = getIntent().getIntExtra("child_id", -1);
+        if (childId == -1) {
+            android.content.SharedPreferences pref = getSharedPreferences("simbalita_prefs", MODE_PRIVATE);
+            childId = pref.getInt("selected_child_id", -1);
+            if (childId == -1) {
+                int motherId = pref.getInt("user_id", -1);
+                List<com.example.simbalita.model.Child> kids = dbHelper.getChildrenByMother(motherId);
+                if (!kids.isEmpty()) {
+                    childId = kids.get(0).getId();
+                }
+            }
+        }
 
         rvHistory = findViewById(R.id.rv_history);
         tvEmpty = findViewById(R.id.tv_history_empty);

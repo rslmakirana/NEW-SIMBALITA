@@ -164,7 +164,7 @@ public class AdminPemeriksaanFragment extends Fragment {
             double weight = Double.parseDouble(weightStr);
             double height = Double.parseDouble(heightStr);
             int selectedChildPos = spChild.getSelectedItemPosition();
-            int childId = childList[selectedChildPos].getId();
+            int childId = childList.get(selectedChildPos).getId();
 
             String status = dbHelper.calculateNutritionalStatus(childId, selectedSqlDate, weight, height);
             etStatus.setText(status);
@@ -198,7 +198,7 @@ public class AdminPemeriksaanFragment extends Fragment {
         double height = Double.parseDouble(heightStr);
         
         int selectedChildPos = spChild.getSelectedItemPosition();
-        int childId = childList[selectedChildPos].getId();
+        int childId = childList.get(selectedChildPos).getId();
 
         // Calculate final status
         String status = dbHelper.calculateNutritionalStatus(childId, selectedSqlDate, weight, height);

@@ -18,6 +18,18 @@
             android:background="@color/primary_ibu"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Hamburger Menu Button -->
+        <ImageView
+            android:id="@+id/iv_data_menu"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_menu"
+            app:tint="@color/white"
+            app:layout_constraintTop_toTopOf="@id/v_data_header"
+            app:layout_constraintBottom_toBottomOf="@id/v_data_header"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

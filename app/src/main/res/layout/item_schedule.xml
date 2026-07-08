@@ -23,7 +23,7 @@
             android:padding="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_bottomtoBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/tv_sch_datetime"
@@ -74,7 +74,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/iv_sch_delete"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_bottomtoBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageView
             android:id="@+id/iv_sch_delete"
@@ -85,7 +85,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_bottomtoBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

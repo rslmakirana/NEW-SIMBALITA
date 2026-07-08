@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_child_profile"
+            android:icon="@drawable/ic_child"
+            android:title="Profil Anak" />
+        <item
+            android:id="@+id/nav_kms_graph"
+            android:icon="@drawable/ic_dashboard"
+            android:title="Grafik KMS" />
+        <item
+            android:id="@+id/nav_pemeriksaan_history"
+            android:icon="@drawable/ic_checkup"
+            android:title="Riwayat Pemeriksaan" />
+        <item
+            android:id="@+id/nav_imunisasi_history"
+            android:icon="@drawable/ic_heart"
+            android:title="Riwayat Imunisasi" />
+        <item
+            android:id="@+id/nav_schedule"
+            android:icon="@drawable/ic_calendar"
+            android:title="Jadwal Posyandu" />
+        <item
+            android:id="@+id/nav_edukasi"
+            android:icon="@drawable/ic_book"
+            android:title="Edukasi" />
+    </group>
+</menu>

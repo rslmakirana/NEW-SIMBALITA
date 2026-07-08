@@ -17,7 +17,7 @@ import java.util.Locale;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "simbalita.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 5;
 
     // Table names
     public static final String TABLE_USERS = "users";
@@ -32,6 +32,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_USER_PHONE = "phone";
     public static final String COL_USER_PASSWORD = "password";
     public static final String COL_USER_ROLE = "role";
+    public static final String COL_USER_NIK = "nik";
+    public static final String COL_USER_ADDRESS = "address";
+    public static final String COL_USER_USERNAME = "username";
 
     // Child columns
     public static final String COL_CHILD_ID = "id";
@@ -73,9 +76,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createUsersTable = "CREATE TABLE " + TABLE_USERS + " (" +
                 COL_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COL_USER_NAME + " TEXT, " +
-                COL_USER_PHONE + " TEXT UNIQUE, " +
+                COL_USER_PHONE + " TEXT, " +
                 COL_USER_PASSWORD + " TEXT, " +
-                COL_USER_ROLE + " TEXT)";
+                COL_USER_ROLE + " TEXT, " +
+                COL_USER_NIK + " TEXT, " +
+                COL_USER_ADDRESS + " TEXT, " +
+                COL_USER_USERNAME + " TEXT UNIQUE)";
 
         String createChildrenTable = "CREATE TABLE " + TABLE_CHILDREN + " (" +
                 COL_CHILD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -119,8 +125,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues adminValues = new ContentValues();
         adminValues.put(COL_USER_NAME, "Kader Posyandu");
         adminValues.put(COL_USER_PHONE, "081234567890");
-        adminValues.put(COL_USER_PASSWORD, "admin123");
+        adminValues.put(COL_USER_PASSWORD, "admin12345");
         adminValues.put(COL_USER_ROLE, "ADMIN");
+        adminValues.put(COL_USER_NIK, "0000000000000000");
+        adminValues.put(COL_USER_ADDRESS, "Posyandu Melati 1");
+        adminValues.put(COL_USER_USERNAME, "admin");
         db.insert(TABLE_USERS, null, adminValues);
 
         // Preseed Schedules
@@ -193,14 +202,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_USER_PHONE, user.getPhone());
         values.put(COL_USER_PASSWORD, user.getPassword());
         values.put(COL_USER_ROLE, user.getRole());
+        values.put(COL_USER_NIK, user.getNik());
+        values.put(COL_USER_ADDRESS, user.getAddress());
+        values.put(COL_USER_USERNAME, user.getUsername());
         return db.insert(TABLE_USERS, null, values);
     }
 
-    public User authenticateUser(String phone, String password) {
+    public User authenticateUser(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_USERS, null,
-                COL_USER_PHONE + "=? AND " + COL_USER_PASSWORD + "=?",
-                new String[]{phone, password}, null, null, null);
+                COL_USER_USERNAME + "=? AND " + COL_USER_PASSWORD + "=?",
+                new String[]{username, password}, null, null, null);
 
         if (cursor != null && cursor.moveToFirst()) {
             User user = new User(
@@ -208,7 +220,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_NAME)),
                     cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_PHONE)),
                     cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_PASSWORD)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_ROLE))
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_ROLE)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_NIK)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_ADDRESS)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_USERNAME))
             );
             cursor.close();
             return user;
@@ -228,7 +243,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_NAME)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_PHONE)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_PASSWORD)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_ROLE))
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_ROLE)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_NIK)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_ADDRESS)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_USERNAME))
                 ));
             } while (cursor.moveToNext());
         }
@@ -245,13 +263,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_NAME)),
                     cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_PHONE)),
                     cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_PASSWORD)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_ROLE))
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_ROLE)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_NIK)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_ADDRESS)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_USER_USERNAME))
             );
             cursor.close();
             return user;
         }
         if (cursor != null) cursor.close();
         return null;
+    }
+
+    public boolean isUsernameExists(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_USERS, null, COL_USER_USERNAME + "=?", new String[]{username}, null, null, null);
+        boolean exists = (cursor != null && cursor.getCount() > 0);
+        if (cursor != null) cursor.close();
+        return exists;
+    }
+
+    public boolean resetPassword(String username, String nik, String newPassword) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_USER_PASSWORD, newPassword);
+        int rows = db.update(TABLE_USERS, values,
+                COL_USER_USERNAME + "=? AND " + COL_USER_NIK + "=?",
+                new String[]{username, nik});
+        return rows > 0;
     }
 
     // --- Child Methods ---

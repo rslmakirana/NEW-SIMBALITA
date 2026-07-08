@@ -34,6 +34,16 @@ public class IbuEdukasiFragment extends Fragment {
 
         rvArticles.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+        // Drawer Menu Toggle
+        android.widget.ImageView ivMenu = view.findViewById(R.id.iv_edu_menu);
+        if (ivMenu != null) {
+            ivMenu.setOnClickListener(v -> {
+                if (requireActivity() instanceof IbuMainActivity) {
+                    ((IbuMainActivity) requireActivity()).openDrawer();
+                }
+            });
+        }
+
         loadArticles();
 
         return view;

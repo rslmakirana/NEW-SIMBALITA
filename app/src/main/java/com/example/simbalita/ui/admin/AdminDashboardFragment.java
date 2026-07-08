@@ -28,6 +28,15 @@ public class AdminDashboardFragment extends Fragment {
         tvTotalChildren = view.findViewById(R.id.tv_dash_balita_value);
         tvExamsToday = view.findViewById(R.id.tv_dash_exams_value);
 
+        android.widget.ImageView ivLogout = view.findViewById(R.id.iv_admin_logout);
+        if (ivLogout != null) {
+            ivLogout.setOnClickListener(v -> {
+                if (requireActivity() instanceof AdminMainActivity) {
+                    ((AdminMainActivity) requireActivity()).logout();
+                }
+            });
+        }
+
         updateDashboardStats();
 
         return view;

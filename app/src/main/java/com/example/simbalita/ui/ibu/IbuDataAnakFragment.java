@@ -61,6 +61,16 @@ public class IbuDataAnakFragment extends Fragment {
         cvDetails = view.findViewById(R.id.cv_child_details);
         llNoChildData = view.findViewById(R.id.ll_no_child_data);
 
+        // Drawer Menu Toggle
+        ImageView ivMenu = view.findViewById(R.id.iv_data_menu);
+        if (ivMenu != null) {
+            ivMenu.setOnClickListener(v -> {
+                if (requireActivity() instanceof IbuMainActivity) {
+                    ((IbuMainActivity) requireActivity()).openDrawer();
+                }
+            });
+        }
+
         // Read selected child from preferences
         int childId = pref.getInt("selected_child_id", -1);
 

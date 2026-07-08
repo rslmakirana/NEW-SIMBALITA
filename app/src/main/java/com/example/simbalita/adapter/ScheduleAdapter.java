@@ -41,7 +41,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Schedule schedule = scheduleList[position];
+        Schedule schedule = scheduleList.get(position);
         
         holder.tvTitle.setText(schedule.getTitle());
         holder.tvLocation.setText(schedule.getLocation());

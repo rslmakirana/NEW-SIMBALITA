@@ -33,7 +33,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Article article = articleList[position];
+        Article article = articleList.get(position);
         holder.tvTitle.setText(article.getTitle());
         holder.tvCategory.setText(article.getCategory());
         

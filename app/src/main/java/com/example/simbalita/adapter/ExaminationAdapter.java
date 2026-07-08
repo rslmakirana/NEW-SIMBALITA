@@ -40,7 +40,7 @@ public class ExaminationAdapter extends RecyclerView.Adapter<ExaminationAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Examination exam = examList[position];
+        Examination exam = examList.get(position);
         
         // Format Date to friendly form e.g. "10 Mei 2026"
         String formattedDate = formatDateStr(exam.getDate());

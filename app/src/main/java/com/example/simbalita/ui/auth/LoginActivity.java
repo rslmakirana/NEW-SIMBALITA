@@ -19,7 +19,7 @@ import com.example.simbalita.ui.ibu.IbuMainActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText etPhone, etPassword;
+    private EditText etUsername, etPassword;
     private Button btnLogin;
     private TextView tvRegister, tvForgot;
     private ImageView ivTogglePassword;
@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
 
         // Bind views
-        etPhone = findViewById(R.id.et_login_phone);
+        etUsername = findViewById(R.id.et_login_username);
         etPassword = findViewById(R.id.et_login_password);
         btnLogin = findViewById(R.id.btn_login);
         tvRegister = findViewById(R.id.tv_login_register_now);
@@ -60,22 +60,23 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Forgot password dummy click
-        tvForgot.setOnClickListener(v -> 
-            Toast.makeText(this, "Silakan hubungi Kader Posyandu untuk mereset password Anda.", Toast.LENGTH_LONG).show()
-        );
+        // Forgot password redirection
+        tvForgot.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
+        });
 
         // Handle Login button
         btnLogin.setOnClickListener(v -> performLogin());
     }
 
     private void performLogin() {
-        String phone = etPhone.getText().toString().trim();
+        String username = etUsername.getText().toString().trim().toLowerCase(); // Normalize to lowercase
         String password = etPassword.getText().toString().trim();
 
-        if (phone.isEmpty()) {
-            etPhone.setError("No HP tidak boleh kosong");
-            etPhone.requestFocus();
+        if (username.isEmpty()) {
+            etUsername.setError("Username tidak boleh kosong");
+            etUsername.requestFocus();
             return;
         }
 
@@ -85,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        User user = dbHelper.authenticateUser(phone, password);
+        User user = dbHelper.authenticateUser(username, password);
         if (user != null) {
             // Save user details to SharedPreferences
             SharedPreferences pref = getSharedPreferences("simbalita_prefs", Context.MODE_PRIVATE);
@@ -94,6 +95,9 @@ public class LoginActivity extends AppCompatActivity {
             editor.putString("user_name", user.getName());
             editor.putString("user_phone", user.getPhone());
             editor.putString("user_role", user.getRole());
+            editor.putString("user_nik", user.getNik());
+            editor.putString("user_address", user.getAddress());
+            editor.putString("user_username", user.getUsername());
             editor.apply();
 
             Toast.makeText(this, "Login Berhasil sebagai " + (user.getRole().equals("ADMIN") ? "Kader" : "Ibu"), Toast.LENGTH_SHORT).show();
@@ -108,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            Toast.makeText(this, "No HP atau Password salah!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Username atau Password salah!", Toast.LENGTH_SHORT).show();
         }
     }
 }

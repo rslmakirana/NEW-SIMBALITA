@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SIMBALITA</string>
+    <string name="slogan_posyandu">E-Posyandu</string>
+    <string name="pantau_tumbuh_kembang">Pantau Tumbuh Kembang\nAnak Lebih Mudah</string>
+    <string name="selamat_datang">Selamat Datang 👋</string>
+    <string name="silakan_masuk">Silakan masuk untuk melanjutkan</string>
+    <string name="no_hp">No HP</string>
+    <string name="hint_no_hp">Contoh: 081234567890</string>
+    <string name="password">Password</string>
+    <string name="hint_password">Masukkan password</string>
+    <string name="hint_nama_ibu">Masukkan nama ibu</string>
+    <string name="hint_buat_password">Buat password</string>
+    <string name="lupa_password">Lupa password?</string>
+    <string name="masuk">Masuk</string>
+    <string name="belum_punya_akun">Belum punya akun?</string>
+    <string name="daftar_sekarang">Daftar Sekarang</string>
+    <string name="daftar_akun">Daftar Akun</string>
+    <string name="buat_akun_baru">Buat akun baru untuk memulai</string>
+    <string name="nama_ibu">Nama Ibu</string>
+    <string name="daftar">Daftar</string>
+    <string name="sudah_punya_akun">Sudah punya akun? Masuk</string>
+    <string name="search_hint">Cari nama anak / ibu</string>
+</resources>

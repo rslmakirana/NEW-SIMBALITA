@@ -1,0 +1,25 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Simbalita" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary_ibu</item>
+        <item name="colorPrimaryVariant">@color/primary_dark_ibu</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:windowBackground">@color/background_app</item>
+        <item name="android:statusBarColor">@color/primary_dark_ibu</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <!-- Ibu specific theme. -->
+    <style name="Theme.Simbalita.Ibu" parent="Theme.Simbalita">
+        <item name="colorPrimary">@color/primary_ibu</item>
+        <item name="colorPrimaryVariant">@color/primary_dark_ibu</item>
+        <item name="android:statusBarColor">@color/primary_dark_ibu</item>
+    </style>
+
+    <!-- Admin specific theme. -->
+    <style name="Theme.Simbalita.Admin" parent="Theme.Simbalita">
+        <item name="colorPrimary">@color/primary_admin</item>
+        <item name="colorPrimaryVariant">@color/primary_dark_admin</item>
+        <item name="android:statusBarColor">@color/primary_dark_admin</item>
+    </style>
+</resources>

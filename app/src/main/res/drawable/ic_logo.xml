@@ -1,0 +1,26 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <!-- Outer Ring -->
+    <path
+        android:pathData="M50,10 C27.9,10 10,27.9 10,50 C10,72.1 27.9,90 50,90 C72.1,90 90,72.1 90,50 C90,27.9 72.1,10 50,10 Z"
+        android:fillColor="#E8F5E9" />
+    <!-- Mother Head -->
+    <path
+        android:pathData="M50,33 m-7,0 a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0"
+        android:fillColor="#4CAF50" />
+    <!-- Mother Body (cradling child) -->
+    <path
+        android:pathData="M50,42 C40,42 34,48 34,58 C34,68 39,78 50,78 C52,78 54,77 56,76 C54,73 53,69 53,65 C53,58 58,53 64,53 C66,53 68,54 70,55 C68,47 62,42 50,42 Z"
+        android:fillColor="#4CAF50" />
+    <!-- Child Head -->
+    <path
+        android:pathData="M64,57 m-4.5,0 a4.5,4.5 0 1,0 9,0 a4.5,4.5 0 1,0 -9,0"
+        android:fillColor="#8BC34A" />
+    <!-- Child Body -->
+    <path
+        android:pathData="M64,63 C58.5,63 55,67 55,73 C55,75 59.5,77 64,77 C68.5,77 73,75 73,73 C73,67 69.5,63 64,63 Z"
+        android:fillColor="#8BC34A" />
+</vector>

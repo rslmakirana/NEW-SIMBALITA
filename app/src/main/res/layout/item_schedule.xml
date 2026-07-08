@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="6dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/iv_sch_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_calendar"
+            android:background="#E3F2FD"
+            app:tint="@color/primary_admin"
+            android:padding="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_bottomtoBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_sch_datetime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="15 Juli 2026 - 08.00 WIB"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/iv_sch_edit"
+            app:layout_constraintStart_toEndOf="@id/iv_sch_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_sch_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="Posyandu Melati 1"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/iv_sch_edit"
+            app:layout_constraintStart_toEndOf="@id/iv_sch_icon"
+            app:layout_constraintTop_toBottomOf="@id/tv_sch_datetime" />
+
+        <TextView
+            android:id="@+id/tv_sch_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:text="Jl. Melati No. 10"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/iv_sch_edit"
+            app:layout_constraintStart_toEndOf="@id/iv_sch_icon"
+            app:layout_constraintTop_toBottomOf="@id/tv_sch_title" />
+
+        <ImageView
+            android:id="@+id/iv_sch_edit"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_edit"
+            app:tint="@color/primary_admin"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/iv_sch_delete"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_bottomtoBottomOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_sch_delete"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_delete"
+            app:tint="@color/status_danger"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_bottomtoBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

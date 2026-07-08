@@ -1,0 +1,19 @@
+# Built-in Gradle/Android Studio ignore rules
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/workspace.xml
+/.idea/nav/js.xml
+/captures
+.externalNativeBuild
+.cxx
+/build
+/app/build
+
+# Log files
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

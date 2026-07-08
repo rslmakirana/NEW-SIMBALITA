@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+    <item
+        android:id="@+id/menu_data_anak"
+        android:icon="@drawable/ic_child"
+        android:title="Data Anak" />
+    <item
+        android:id="@+id/menu_jadwal"
+        android:icon="@drawable/ic_calendar"
+        android:title="Jadwal" />
+    <item
+        android:id="@+id/menu_edukasi"
+        android:icon="@drawable/ic_book"
+        android:title="Edukasi" />
+</menu>

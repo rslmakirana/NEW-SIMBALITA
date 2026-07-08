@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_admin_dashboard"
+        android:icon="@drawable/ic_dashboard"
+        android:title="Dashboard" />
+    <item
+        android:id="@+id/menu_admin_peserta"
+        android:icon="@drawable/ic_child"
+        android:title="Peserta" />
+    <item
+        android:id="@+id/menu_admin_pemeriksaan"
+        android:icon="@drawable/ic_checkup"
+        android:title="Pemeriksaan" />
+    <item
+        android:id="@+id/menu_admin_jadwal"
+        android:icon="@drawable/ic_calendar"
+        android:title="Jadwal" />
+    <item
+        android:id="@+id/menu_admin_laporan"
+        android:icon="@drawable/ic_report"
+        android:title="Laporan" />
+</menu>

@@ -5,27 +5,28 @@
     <color name="black">#000000</color>
     <color name="text_primary">#1A1A1A</color>
     <color name="text_secondary">#4E4E4E</color>
-    <color name="background_app">#F7F9FC</color>
-    <color name="border_color">#B0B0B0</color>
+    <color name="background_app">#FAF7F2</color> <!-- Soft warm off-white from F6E4C4 -->
+    <color name="border_color">#D0C7B7</color>
+    <color name="cream_palette">#F6E4C4</color>
+
+    <!-- User (Ibu) Theme Colors (Vivid Turquoise Sunset - Teal & Turquoise) -->
+    <color name="primary_ibu">#28B1A6</color>
+    <color name="primary_dark_ibu">#1D857D</color>
+    <color name="secondary_ibu">#32CBB4</color>
+    <color name="accent_ibu">#EC837E</color> <!-- Coral accent -->
+    <color name="accent_light_ibu">#FDEBEA</color>
+    <color name="primary_light_ibu">#D3F6F1</color>
     
-    <!-- User (Ibu) Theme Colors (Green) -->
-    <color name="primary_ibu">#4CAF50</color>
-    <color name="primary_dark_ibu">#388E3C</color>
-    <color name="secondary_ibu">#8BC34A</color>
-    <color name="accent_ibu">#03A9F4</color>
-    <color name="accent_light_ibu">#B3E5FC</color>
-    <color name="primary_light_ibu">#C8E6C9</color>
-    
-    <!-- Admin (Kader) Theme Colors (Blue) -->
-    <color name="primary_admin">#1976D2</color>
-    <color name="primary_dark_admin">#0D47A1</color>
-    <color name="accent_admin">#2196F3</color>
-    <color name="primary_light_admin">#BBDEFB</color>
+    <!-- Admin (Kader) Theme Colors (Vivid Turquoise Sunset - Coral & Cream) -->
+    <color name="primary_admin">#EC837E</color>
+    <color name="primary_dark_admin">#D66F6A</color>
+    <color name="accent_admin">#32CBB4</color>
+    <color name="primary_light_admin">#FDEBEA</color>
     
     <!-- Status Colors -->
-    <color name="status_normal">#4CAF50</color>
-    <color name="status_warning">#FFEB3B</color>
-    <color name="status_danger">#E53935</color>
-    <color name="status_danger_light">#FFCDD2</color>
-    <color name="status_normal_light">#E8F5E9</color>
+    <color name="status_normal">#28B1A6</color>
+    <color name="status_warning">#F6E4C4</color>
+    <color name="status_danger">#EC837E</color>
+    <color name="status_danger_light">#FDEBEA</color>
+    <color name="status_normal_light">#D3F6F1</color>
 </resources>

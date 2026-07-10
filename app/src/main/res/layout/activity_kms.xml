@@ -66,6 +66,7 @@
                 android:layout_height="320dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/white"
                 android:layout_marginBottom="24dp">
 
                 <com.example.simbalita.ui.ibu.KmsGraphView

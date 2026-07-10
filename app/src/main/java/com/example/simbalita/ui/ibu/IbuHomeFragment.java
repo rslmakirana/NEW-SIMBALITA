@@ -131,8 +131,8 @@ public class IbuHomeFragment extends Fragment {
             
             List<String> emptyList = new ArrayList<>();
             emptyList.add("Tidak ada balita terdaftar");
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, emptyList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item, emptyList);
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
             spChild.setAdapter(adapter);
             return;
         }
@@ -150,8 +150,8 @@ public class IbuHomeFragment extends Fragment {
             spinnerItems.add(child.getName() + " (" + DatabaseHelper.formatAge(ageMonths) + ")");
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, spinnerItems);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item, spinnerItems);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spChild.setAdapter(adapter);
 
         // Retrieve last selected child from prefs if any

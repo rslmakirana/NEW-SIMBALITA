@@ -52,6 +52,7 @@
             android:layout_marginTop="90dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/white"
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
@@ -101,6 +102,7 @@
             android:layout_marginTop="20dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/cv_profile_card">
 
             <LinearLayout

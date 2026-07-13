@@ -20,7 +20,7 @@
             android:layout_height="48dp"
             android:src="@drawable/ic_child"
             app:tint="@color/primary_ibu"
-            android:background="@color/status_normal_light"
+            android:background="#F5F5F5"
             android:padding="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Aisyah Putri"
+            android:text="Nama Balita"
             android:textColor="@color/text_primary"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -43,7 +43,7 @@
             android:id="@+id/tv_child_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="(2 Th 1 Bln)"
+            android:text="(Umur)"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,17 +51,19 @@
 
         <TextView
             android:id="@+id/tv_child_gender"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
-            android:text="Perempuan"
+            android:text="Info Balita"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/iv_child_arrow"
             app:layout_constraintStart_toEndOf="@id/iv_child_avatar"
             app:layout_constraintTop_toBottomOf="@id/tv_child_name" />
 
         <ImageView
+            android:id="@+id/iv_child_arrow"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_back"

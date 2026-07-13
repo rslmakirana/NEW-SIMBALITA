@@ -1,11 +1,11 @@
 package com.example.simbalita.ui.admin;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.simbalita.R;
@@ -22,7 +22,6 @@ public class AddScheduleActivity extends AppCompatActivity {
     private EditText etDate, etTime, etTitle, etLocation;
     private Button btnSave;
     private ImageView ivBack;
-    private TextView tvHeaderTitle;
     
     private DatabaseHelper dbHelper;
     private boolean isEdit = false;
@@ -33,8 +32,6 @@ public class AddScheduleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Apply Admin Theme
-        setTheme(R.style.Theme_Simbalita_Admin);
         setContentView(R.layout.activity_add_schedule);
 
         dbHelper = new DatabaseHelper(this);
@@ -44,24 +41,25 @@ public class AddScheduleActivity extends AppCompatActivity {
         etTitle = findViewById(R.id.et_sch_title);
         etLocation = findViewById(R.id.et_sch_location);
         btnSave = findViewById(R.id.btn_sch_save);
-        ivBack = findViewById(R.id.iv_add_sch_back);
-        tvHeaderTitle = findViewById(R.id.tv_add_sch_title);
+        ivBack = findViewById(R.id.btn_back_add_schedule);
 
         ivBack.setOnClickListener(v -> finish());
 
-        // Date Picker click
+        // Date Picker dropdown dialog trigger
         etDate.setOnClickListener(v -> showDatePicker());
+
+        // Time Picker dropdown dialog trigger
+        etTime.setOnClickListener(v -> showTimePicker());
 
         // Check if editing
         isEdit = getIntent().getBooleanExtra("is_edit", false);
         scheduleId = getIntent().getIntExtra("schedule_id", -1);
 
         if (isEdit && scheduleId != -1) {
-            tvHeaderTitle.setText("Edit Jadwal Posyandu");
             loadScheduleData();
         } else {
-            // Set default hints or prepopulate
-            etTime.setText("08.00 WIB");
+            // Set default hints
+            etTime.setText("08:00 WIB");
             etTitle.setText("Posyandu Melati 1");
             etLocation.setText("Jl. Melati No. 10");
         }
@@ -91,9 +89,19 @@ public class AddScheduleActivity extends AppCompatActivity {
         ).show();
     }
 
+    private void showTimePicker() {
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, hourOfDay, minuteOfHour) -> {
+            String timeStr = String.format(Locale.getDefault(), "%02d:%02d WIB", hourOfDay, minuteOfHour);
+            etTime.setText(timeStr);
+        }, hour, minute, true);
+        timePickerDialog.show();
+    }
+
     private void loadScheduleData() {
         Schedule sch = null;
-        // Search schedule by ID
         for (Schedule s : dbHelper.getAllSchedules()) {
             if (s.getId() == scheduleId) {
                 sch = s;

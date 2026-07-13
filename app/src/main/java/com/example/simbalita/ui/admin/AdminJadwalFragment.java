@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,13 +19,15 @@ import com.example.simbalita.R;
 import com.example.simbalita.adapter.ScheduleAdapter;
 import com.example.simbalita.database.DatabaseHelper;
 import com.example.simbalita.model.Schedule;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.List;
 
 public class AdminJadwalFragment extends Fragment {
 
     private RecyclerView rvSchedules;
     private TextView tvEmpty;
-    private ImageView ivAdd;
+    private ImageView btnBack;
+    private Button btnTambahJadwal;
     private DatabaseHelper dbHelper;
 
     @Nullable
@@ -35,12 +38,23 @@ public class AdminJadwalFragment extends Fragment {
         dbHelper = new DatabaseHelper(requireContext());
         rvSchedules = view.findViewById(R.id.rv_admin_schedules);
         tvEmpty = view.findViewById(R.id.tv_admin_schedules_empty);
-        ivAdd = view.findViewById(R.id.iv_admin_sch_add);
+        btnBack = view.findViewById(R.id.btn_back_jadwal);
+        btnTambahJadwal = view.findViewById(R.id.btn_tambah_jadwal);
 
         rvSchedules.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        // Add Click
-        ivAdd.setOnClickListener(v -> {
+        // Back button click -> Switch tab to Home
+        btnBack.setOnClickListener(v -> {
+            if (requireActivity() instanceof AdminMainActivity) {
+                BottomNavigationView bottomNav = requireActivity().findViewById(R.id.bottom_nav_admin);
+                if (bottomNav != null) {
+                    bottomNav.setSelectedItemId(R.id.menu_admin_dashboard);
+                }
+            }
+        });
+
+        // Add schedule button click
+        btnTambahJadwal.setOnClickListener(v -> {
             Intent intent = new Intent(requireActivity(), AddScheduleActivity.class);
             startActivity(intent);
         });

@@ -1,205 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_app"
-    android:fillViewport="true">
+    android:background="@color/primary_admin"
+    android:orientation="vertical"
+    android:padding="24dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!-- Header back button -->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="32dp">
-
-        <!-- Top Header Bar -->
-        <View
-            android:id="@+id/v_add_child_header"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/primary_admin"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp">
 
         <ImageView
-            android:id="@+id/iv_add_child_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
+            android:id="@+id/btn_back_add_child"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentStart="true"
             android:src="@drawable/ic_back"
             app:tint="@color/white"
-            app:layout_constraintTop_toTopOf="@id/v_add_child_header"
-            app:layout_constraintBottom_toBottomOf="@id/v_add_child_header"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Back" />
 
-        <TextView
-            android:id="@+id/tv_add_child_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tambah Balita"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/v_add_child_header"
-            app:layout_constraintBottom_toBottomOf="@id/v_add_child_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+    </RelativeLayout>
 
-        <!-- Form Container -->
+    <!-- Main Container Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/white">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginHorizontal="24dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/v_add_child_header">
+            android:padding="24dp">
 
-            <!-- Child's Name -->
+            <!-- Title -->
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nama Balita"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_child_name"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_edittext"
-                android:hint="Masukkan nama lengkap anak"
-                android:inputType="textPersonName"
-                android:paddingHorizontal="16dp"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp" />
-
-            <!-- Birth Date -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Tanggal Lahir"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_child_birth_date"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_edittext"
-                android:hint="Pilih tanggal lahir"
-                android:focusable="false"
-                android:clickable="true"
-                android:paddingHorizontal="16dp"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp" />
-
-            <!-- Gender -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Jenis Kelamin"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/sp_child_gender"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_edittext" />
-
-            <!-- Birth Weight -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Berat Lahir (Kg)"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_child_birth_weight"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_edittext"
-                android:hint="Contoh: 3.1"
-                android:inputType="numberDecimal"
-                android:paddingHorizontal="16dp"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp" />
-
-            <!-- Birth Height -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Tinggi Lahir (cm)"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_child_birth_height"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_edittext"
-                android:hint="Contoh: 50"
-                android:inputType="numberDecimal"
-                android:paddingHorizontal="16dp"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp" />
-
-            <!-- Mother Selector -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Pilih Ibu"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/sp_child_mother"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_edittext" />
-
-            <TextView
-                android:id="@+id/tv_no_mother_warning"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="* Tidak ada akun Ibu yang terdaftar. Ibu harus melakukan Registrasi di aplikasi terlebih dahulu agar namanya muncul di sini."
-                android:textColor="@color/status_danger"
-                android:textSize="12sp"
-                android:visibility="gone" />
+                android:gravity="center"
+                android:text="TAMBAH PESERTA"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Scrollable form contents -->
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Nama Balita -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nama Balita"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+                    <EditText
+                        android:id="@+id/et_add_child_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_input_blue"
+                        android:textColor="@color/white"
+                        android:textColorHint="#DDDDDD"
+                        android:textSize="15sp"
+                        android:paddingHorizontal="16dp"
+                        android:singleLine="true"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Tanggal Lahir -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tanggal Lahir"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+                    <EditText
+                        android:id="@+id/et_add_child_birth_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_input_blue"
+                        android:textColor="@color/white"
+                        android:textColorHint="#DDDDDD"
+                        android:textSize="15sp"
+                        android:paddingHorizontal="16dp"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:hint="Pilih tanggal..."
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Jenis Kelamin -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Jenis Kelamin"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+                    <!-- Use standard Spinner with custom blue background -->
+                    <Spinner
+                        android:id="@+id/sp_add_child_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_input_blue"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Berat Lahir -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Berat Lahir (Kg)"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+                    <EditText
+                        android:id="@+id/et_add_child_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_input_blue"
+                        android:textColor="@color/white"
+                        android:textColorHint="#DDDDDD"
+                        android:textSize="15sp"
+                        android:paddingHorizontal="16dp"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Tinggi Lahir -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tinggi Lahir (Cm)"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+                    <EditText
+                        android:id="@+id/et_add_child_height"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_input_blue"
+                        android:textColor="@color/white"
+                        android:textColorHint="#DDDDDD"
+                        android:textSize="15sp"
+                        android:paddingHorizontal="16dp"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Nama Ibu -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nama Ibu"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+                    <!-- Use standard Spinner with custom blue background -->
+                    <Spinner
+                        android:id="@+id/sp_add_child_mother"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_input_blue"
+                        android:layout_marginBottom="24dp" />
+
+                </LinearLayout>
+
+            </ScrollView>
 
             <!-- Save Button -->
-            <Button
-                android:id="@+id/btn_child_save"
+            <android.widget.Button
+                android:id="@+id/btn_add_child_save"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="32dp"
-                android:backgroundTint="@color/primary_admin"
-                android:text="Simpan"
+                android:layout_height="52dp"
+                android:background="@drawable/bg_btn_blue"
+                android:text="SIMPAN"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:textAllCaps="false"
-                app:cornerRadius="12dp" />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
-</ScrollView>
+</LinearLayout>

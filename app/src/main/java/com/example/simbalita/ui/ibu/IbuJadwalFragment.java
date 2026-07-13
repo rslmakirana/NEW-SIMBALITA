@@ -33,15 +33,7 @@ public class IbuJadwalFragment extends Fragment {
 
         rvSchedules.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        // Drawer Menu Toggle
-        android.widget.ImageView ivMenu = view.findViewById(R.id.iv_sch_menu);
-        if (ivMenu != null) {
-            ivMenu.setOnClickListener(v -> {
-                if (requireActivity() instanceof IbuMainActivity) {
-                    ((IbuMainActivity) requireActivity()).openDrawer();
-                }
-            });
-        }
+
 
         loadSchedules();
 

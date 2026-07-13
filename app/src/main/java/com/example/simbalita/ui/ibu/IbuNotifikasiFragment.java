@@ -38,15 +38,6 @@ public class IbuNotifikasiFragment extends Fragment {
         // Bind views
         rvNotifications = view.findViewById(R.id.rv_notifications);
         tvEmpty = view.findViewById(R.id.tv_notif_empty);
-        ImageView ivMenu = view.findViewById(R.id.iv_notif_menu);
-
-        if (ivMenu != null) {
-            ivMenu.setOnClickListener(v -> {
-                if (requireActivity() instanceof IbuMainActivity) {
-                    ((IbuMainActivity) requireActivity()).openDrawer();
-                }
-            });
-        }
 
         // Shared preferences
         SharedPreferences pref = requireActivity().getSharedPreferences("simbalita_prefs", Context.MODE_PRIVATE);

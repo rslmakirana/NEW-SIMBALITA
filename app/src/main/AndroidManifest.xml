@@ -52,9 +52,12 @@
         <activity
             android:name=".ui.ibu.DetailPemeriksaanActivity"
             android:exported="false" />
-            
         <activity
-            android:name=".ui.ibu.EdukasiDetailActivity"
+            android:name=".ui.ibu.BiodataIbuActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.ibu.BiodataAnakActivity"
             android:exported="false" />
 
         <activity
@@ -77,6 +80,16 @@
             
         <activity
             android:name=".ui.admin.AddScheduleActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.admin.PemeriksaanBalitaActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.admin.DataPesertaActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 

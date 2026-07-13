@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="24dp">
 
-    <!-- Header back button -->
+    <!-- Header Layout (Back arrow only) -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
         android:layout_marginBottom="16dp">
 
         <ImageView
-            android:id="@+id/btn_back_jadwal"
+            android:id="@+id/btn_back_data_peserta"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_alignParentStart="true"
@@ -48,39 +48,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="JADWAL POSYANDU"
+                android:text="DATA PESERTA"
                 android:textColor="@color/black"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="16dp" />
 
-            <!-- RecyclerView for schedule list -->
+            <!-- Search input bar -->
+            <EditText
+                android:id="@+id/et_search_peserta"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_edittext"
+                android:hint="Cari nama balita..."
+                android:textColorHint="@color/text_secondary"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:paddingHorizontal="16dp"
+                android:drawableEnd="@drawable/ic_search"
+                app:drawableTint="@color/text_secondary"
+                android:singleLine="true"
+                android:layout_marginBottom="16dp" />
+
+            <!-- RecyclerView for participant list -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_admin_schedules"
+                android:id="@+id/rv_peserta_list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Empty State Text -->
-            <TextView
-                android:id="@+id/tv_admin_schedules_empty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Belum ada jadwal posyandu."
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:visibility="gone"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Tambah Jadwal Button -->
+            <!-- Tambah Peserta Button -->
             <android.widget.Button
-                android:id="@+id/btn_tambah_jadwal"
+                android:id="@+id/btn_tambah_peserta"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:background="@drawable/bg_btn_blue"
-                android:text="TAMBAH JADWAL"
+                android:text="TAMBAH PESERTA"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />

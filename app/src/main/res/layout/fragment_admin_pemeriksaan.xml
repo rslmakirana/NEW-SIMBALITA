@@ -1,169 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_app"
-    android:fillViewport="true">
+    android:background="@color/primary_admin"
+    android:orientation="vertical"
+    android:padding="24dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!-- Top Spacer (instead of back button since it's a main tab) -->
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="32dp">
+        android:layout_height="16dp" />
 
-        <!-- Top Header Bar -->
-        <View
-            android:id="@+id/v_pemeriksaan_header"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/primary_admin"
-            app:layout_constraintTop_toTopOf="parent" />
+    <!-- Main Container Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/white">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pemeriksaan Balita"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/v_pemeriksaan_header"
-            app:layout_constraintBottom_toBottomOf="@id/v_pemeriksaan_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Form Layout -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginHorizontal="24dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/v_pemeriksaan_header">
+            android:padding="24dp">
 
-            <!-- Pilih Anak -->
+            <!-- Title -->
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pilih Anak"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/sp_exam_child"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_edittext" />
-
-            <!-- Tanggal Pemeriksaan -->
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Tanggal Pemeriksaan"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_exam_date"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_edittext"
-                android:hint="Pilih tanggal pemeriksaan"
-                android:focusable="false"
-                android:clickable="true"
-                android:paddingHorizontal="16dp"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp" />
-
-            <!-- Berat Badan -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Berat Badan (Kg)"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_exam_weight"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_edittext"
-                android:hint="Masukkan berat badan"
-                android:inputType="numberDecimal"
-                android:paddingHorizontal="16dp"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp" />
-
-            <!-- Tinggi Badan -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Tinggi Badan (cm)"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_exam_height"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_edittext"
-                android:hint="Masukkan tinggi badan"
-                android:inputType="numberDecimal"
-                android:paddingHorizontal="16dp"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp" />
-
-            <!-- Status (Otomatis) -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Status (Otomatis)"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_exam_status"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_edittext"
-                android:backgroundTint="#F1F1F1"
-                android:focusable="false"
-                android:clickable="false"
-                android:paddingHorizontal="16dp"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
+                android:gravity="center"
+                android:text="PEMERIKSAAN BALITA"
+                android:textColor="@color/black"
+                android:textSize="22sp"
                 android:textStyle="bold"
-                android:hint="Status gizi akan terisi otomatis" />
+                android:layout_marginBottom="16dp" />
+
+            <!-- Scrollable form contents -->
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Nama Balita (Spinner for child selection) -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nama Balita"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+                    <Spinner
+                        android:id="@+id/sp_exam_child"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_input_blue"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Tanggal Pemeriksaan -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tanggal Pemeriksaan"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+                    <EditText
+                        android:id="@+id/et_exam_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_input_blue"
+                        android:textColor="@color/white"
+                        android:textColorHint="#DDDDDD"
+                        android:textSize="15sp"
+                        android:paddingHorizontal="16dp"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:hint="Pilih tanggal..."
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Berat Lahir (Kg) -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Berat Lahir (Kg)"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+                    <EditText
+                        android:id="@+id/et_exam_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_input_blue"
+                        android:textColor="@color/white"
+                        android:textColorHint="#DDDDDD"
+                        android:textSize="15sp"
+                        android:paddingHorizontal="16dp"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Tinggi Lahir (Cm) -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tinggi Lahir (Cm)"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+                    <EditText
+                        android:id="@+id/et_exam_height"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_input_blue"
+                        android:textColor="@color/white"
+                        android:textColorHint="#DDDDDD"
+                        android:textSize="15sp"
+                        android:paddingHorizontal="16dp"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Status Balita -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status Balita"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+                    <EditText
+                        android:id="@+id/et_exam_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_input_blue"
+                        android:textColor="@color/white"
+                        android:textColorHint="#DDDDDD"
+                        android:textSize="15sp"
+                        android:paddingHorizontal="16dp"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:enabled="false"
+                        android:hint="Otomatis terhitung..."
+                        android:layout_marginBottom="24dp" />
+
+                </LinearLayout>
+
+            </ScrollView>
 
             <!-- Save Button -->
-            <Button
+            <android.widget.Button
                 android:id="@+id/btn_exam_save"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="32dp"
-                android:backgroundTint="@color/primary_admin"
-                android:text="Simpan"
+                android:layout_height="52dp"
+                android:background="@drawable/bg_btn_blue"
+                android:text="SIMPAN"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:textAllCaps="false"
-                app:cornerRadius="12dp" />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
-</ScrollView>
+</LinearLayout>

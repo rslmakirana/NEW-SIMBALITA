@@ -1,171 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_app">
+    android:background="@color/primary_admin"
+    android:fillViewport="true">
 
-    <!-- Top Header Bar -->
-    <View
-        android:id="@+id/v_admin_dash_header"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@color/primary_admin"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_admin_dash_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="28dp"
-        android:text="Dashboard Admin"
-        android:textColor="@color/white"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/iv_admin_logout"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="28dp"
-        android:src="@drawable/ic_logout"
-        app:tint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="Logout" />
-
-    <TextView
-        android:id="@+id/tv_admin_dash_subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="4dp"
-        android:text="Selamat bekerja, Kader Posyandu!"
-        android:textColor="@color/primary_light_admin"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_admin_dash_title" />
-
-    <!-- Container for metrics -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:layout_marginHorizontal="24dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="24dp">
 
-        <!-- Card: Total Balita -->
-        <androidx.cardview.widget.CardView
+        <!-- Top Header: Title + Logout Icon -->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="20dp">
-
-                <ImageView
-                    android:id="@+id/iv_dash_balita"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/ic_child"
-                    android:background="@color/primary_light_admin"
-                    app:tint="@color/primary_admin"
-                    android:padding="10dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                android:orientation="vertical"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@id/iv_admin_logout"
+                android:layout_marginEnd="16dp">
 
                 <TextView
-                    android:id="@+id/tv_dash_balita_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:text="Total Balita"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@id/iv_dash_balita"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:text="DASBOARD ADMIN"
+                    android:textColor="@color/white"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tv_dash_balita_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="4dp"
-                    android:text="0"
-                    android:textColor="@color/text_primary"
-                    android:textSize="28sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@id/iv_dash_balita"
-                    app:layout_constraintTop_toBottomOf="@id/tv_dash_balita_label" />
+                    android:text="SELAMAT DATANG"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+            <!-- Logout Icon -->
+            <ImageView
+                android:id="@+id/iv_admin_logout"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_logout"
+                android:contentDescription="Logout"
+                app:tint="@color/white"
+                xmlns:app="http://schemas.android.com/apk/res-auto" />
 
-        <!-- Card: Pemeriksaan Hari Ini -->
+        </RelativeLayout>
+
+        <!-- Large White Container -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
+            android:layout_height="match_parent"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/white"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:gravity="center_horizontal">
 
-                <ImageView
-                    android:id="@+id/iv_dash_exams"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/ic_checkup"
-                    android:background="#FFE0B2"
-                    app:tint="#FF9800"
-                    android:padding="10dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_dash_exams_label"
-                    android:layout_width="wrap_content"
+                <!-- Card 1: Total Balita -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_total_balita"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:text="Pemeriksaan Hari Ini"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@id/iv_dash_exams"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_marginBottom="24dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#F0F4F8">
 
-                <TextView
-                    android:id="@+id/tv_dash_exams_value"
-                    android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="TOTAL BALITA"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="12dp" />
+
+                        <!-- Number count circle -->
+                        <TextView
+                            android:id="@+id/tv_total_balita"
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            android:background="@drawable/bg_circle_blue"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="32sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <!-- Card 2: Pemeriksaan Hari Ini -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="4dp"
-                    android:text="0"
-                    android:textColor="@color/text_primary"
-                    android:textSize="28sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@id/iv_dash_exams"
-                    app:layout_constraintTop_toBottomOf="@id/tv_dash_exams_label" />
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#F0F4F8">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PEMERIKSAAN HARI INI"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="12dp" />
+
+                        <!-- Number count circle -->
+                        <TextView
+                            android:id="@+id/tv_pemeriksaan_hari_ini"
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            android:background="@drawable/bg_circle_blue"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="32sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

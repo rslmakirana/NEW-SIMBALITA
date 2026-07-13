@@ -17,14 +17,13 @@ import java.util.Locale;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "simbalita.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     // Table names
     public static final String TABLE_USERS = "users";
     public static final String TABLE_CHILDREN = "children";
     public static final String TABLE_EXAMINATIONS = "examinations";
     public static final String TABLE_SCHEDULES = "schedules";
-    public static final String TABLE_ARTICLES = "articles";
 
     // User columns
     public static final String COL_USER_ID = "id";
@@ -59,12 +58,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_SCH_TIME = "time";
     public static final String COL_SCH_TITLE = "title";
     public static final String COL_SCH_LOCATION = "location";
-
-    // Article columns
-    public static final String COL_ART_ID = "id";
-    public static final String COL_ART_TITLE = "title";
-    public static final String COL_ART_CATEGORY = "category";
-    public static final String COL_ART_CONTENT = "content";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -109,17 +102,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_SCH_TITLE + " TEXT, " +
                 COL_SCH_LOCATION + " TEXT)";
 
-        String createArticlesTable = "CREATE TABLE " + TABLE_ARTICLES + " (" +
-                COL_ART_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COL_ART_TITLE + " TEXT, " +
-                COL_ART_CATEGORY + " TEXT, " +
-                COL_ART_CONTENT + " TEXT)";
-
         db.execSQL(createUsersTable);
         db.execSQL(createChildrenTable);
         db.execSQL(createExaminationsTable);
         db.execSQL(createSchedulesTable);
-        db.execSQL(createArticlesTable);
 
         // Preseed Admin
         ContentValues adminValues = new ContentValues();
@@ -134,14 +120,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Preseed Schedules
         seedSchedules(db);
-
-        // Preseed Articles
-        seedArticles(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ARTICLES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCHEDULES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXAMINATIONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CHILDREN);
@@ -163,34 +145,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(COL_SCH_TITLE, sch[2]);
             values.put(COL_SCH_LOCATION, sch[3]);
             db.insert(TABLE_SCHEDULES, null, values);
-        }
-    }
-
-    private void seedArticles(SQLiteDatabase db) {
-        String[][] listArtikel = {
-                {
-                        "MPASI Sehat untuk Anak 6-12 Bulan",
-                        "Nutrisi",
-                        "Makanan Pendamping ASI (MPASI) yang baik dimulai dari usia 6 bulan. Pastikan makanan memiliki tekstur yang tepat sesuai usia bayi. Mulailah dari bubur saring lembut, lalu perlahan naik ke makanan lunak, dan makanan keluarga di usia 12 bulan. Nutrisi MPASI harus mengandung gizi seimbang yang terdiri dari karbohidrat, protein hewani, protein nabati, dan lemak sehat sebagai sumber energi utama anak."
-                },
-                {
-                        "Cegah Stunting Sejak Dini",
-                        "Pertumbuhan",
-                        "Stunting adalah kondisi gagal tumbuh pada anak akibat kekurangan gizi kronis dalam 1000 Hari Pertama Kehidupan (HPK). Cara pencegahan stunting antara lain: memberikan ASI eksklusif sampai 6 bulan, dilanjutkan dengan MPASI berkualitas, menjaga kebersihan lingkungan dan sanitasi, memantau tumbuh kembang anak di Posyandu secara rutin, serta memberikan imunisasi dasar lengkap agar anak terhindar dari penyakit infeksi."
-                },
-                {
-                        "Imunisasi Lengkap untuk Anak",
-                        "Kesehatan",
-                        "Imunisasi melindungi anak dari berbagai penyakit berbahaya seperti TBC, hepatitis B, difteri, pertusis, tetanus, polio, campak, dan rubela. Pastikan anak mendapatkan imunisasi dasar lengkap sebelum berusia 1 tahun dan imunisasi booster sesuai rekomendasi Ikatan Dokter Anak Indonesia (IDAI). Rutin berkonsultasi dengan petugas kesehatan di posyandu mengenai jadwal imunisasi anak Anda."
-                }
-        };
-
-        for (String[] art : listArtikel) {
-            ContentValues values = new ContentValues();
-            values.put(COL_ART_TITLE, art[0]);
-            values.put(COL_ART_CATEGORY, art[1]);
-            values.put(COL_ART_CONTENT, art[2]);
-            db.insert(TABLE_ARTICLES, null, values);
         }
     }
 
@@ -642,42 +596,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             );
             cursor.close();
             return schedule;
-        }
-        if (cursor != null) cursor.close();
-        return null;
-    }
-
-    // --- Article Methods ---
-    public List<Article> getAllArticles() {
-        List<Article> list = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_ARTICLES, null, null, null, null, null, null);
-        if (cursor.moveToFirst()) {
-            do {
-                list.add(new Article(
-                        cursor.getInt(cursor.getColumnIndexOrThrow(COL_ART_ID)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COL_ART_TITLE)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COL_ART_CATEGORY)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COL_ART_CONTENT))
-                ));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return list;
-    }
-
-    public Article getArticleById(int articleId) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_ARTICLES, null, COL_ART_ID + "=?", new String[]{String.valueOf(articleId)}, null, null, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            Article article = new Article(
-                    cursor.getInt(cursor.getColumnIndexOrThrow(COL_ART_ID)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(COL_ART_TITLE)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(COL_ART_CATEGORY)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(COL_ART_CONTENT))
-            );
-            cursor.close();
-            return article;
         }
         if (cursor != null) cursor.close();
         return null;

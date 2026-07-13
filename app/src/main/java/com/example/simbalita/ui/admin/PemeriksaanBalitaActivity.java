@@ -4,63 +4,72 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.ImageView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import com.example.simbalita.R;
 import com.example.simbalita.database.DatabaseHelper;
 import com.example.simbalita.model.Child;
 import com.example.simbalita.model.Examination;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
-public class AdminPemeriksaanFragment extends Fragment {
+public class PemeriksaanBalitaActivity extends AppCompatActivity {
 
-    private Spinner spChild;
-    private EditText etDate, etWeight, etHeight, etStatus;
+    private EditText etChildName, etDate, etWeight, etHeight, etStatus;
     private Button btnSave;
+    private ImageView ivBack;
 
     private DatabaseHelper dbHelper;
-    private List<Child> childList = new ArrayList<>();
+    private int childId = -1;
+    private Child currentChild;
     private Calendar calendar = Calendar.getInstance();
     private String selectedSqlDate = "";
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_admin_pemeriksaan, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pemeriksaan_balita);
 
-        dbHelper = new DatabaseHelper(requireContext());
+        dbHelper = new DatabaseHelper(this);
+        childId = getIntent().getIntExtra("child_id", -1);
+
+        if (childId == -1) {
+            Toast.makeText(this, "Balita tidak ditemukan", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        currentChild = dbHelper.getChildById(childId);
+        if (currentChild == null) {
+            Toast.makeText(this, "Data balita kosong", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         // Bind Views
-        spChild = view.findViewById(R.id.sp_exam_child);
-        etDate = view.findViewById(R.id.et_exam_date);
-        etWeight = view.findViewById(R.id.et_exam_weight);
-        etHeight = view.findViewById(R.id.et_exam_height);
-        etStatus = view.findViewById(R.id.et_exam_status);
-        btnSave = view.findViewById(R.id.btn_exam_save);
+        ivBack = findViewById(R.id.btn_back_pemeriksaan_balita);
+        etChildName = findViewById(R.id.et_exam_child_name);
+        etDate = findViewById(R.id.et_exam_date);
+        etWeight = findViewById(R.id.et_exam_weight);
+        etHeight = findViewById(R.id.et_exam_height);
+        etStatus = findViewById(R.id.et_exam_status);
+        btnSave = findViewById(R.id.btn_exam_save);
 
-        // Setup Date Picker
-        etDate.setOnClickListener(v -> showDatePicker());
+        ivBack.setOnClickListener(v -> finish());
+
+        // Pre-fill child name
+        etChildName.setText(currentChild.getName());
 
         // Set default date to today
         setDefaultDate();
 
-        // Load children list
-        loadChildren();
+        // Date dialog dropdown trigger
+        etDate.setOnClickListener(v -> showDatePicker());
 
         // Setup TextWatchers to auto-calculate status
         TextWatcher calculationWatcher = new TextWatcher() {
@@ -79,51 +88,16 @@ public class AdminPemeriksaanFragment extends Fragment {
         etWeight.addTextChangedListener(calculationWatcher);
         etHeight.addTextChangedListener(calculationWatcher);
 
-        spChild.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                autoCalculateStatus();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
-        // Save Click
         btnSave.setOnClickListener(v -> saveExamination());
-
-        return view;
     }
 
     private void setDefaultDate() {
         Date today = new Date();
         SimpleDateFormat displaySdf = new SimpleDateFormat("dd MMM yyyy", new Locale("id", "ID"));
         SimpleDateFormat sqlSdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-
+        
         etDate.setText(displaySdf.format(today));
         selectedSqlDate = sqlSdf.format(today);
-    }
-
-    private void loadChildren() {
-        childList = dbHelper.getAllChildren();
-
-        if (childList.isEmpty()) {
-            btnSave.setEnabled(false);
-            List<String> emptyList = new ArrayList<>();
-            emptyList.add("Tidak ada balita terdaftar");
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item, emptyList);
-            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-            spChild.setAdapter(adapter);
-        } else {
-            btnSave.setEnabled(true);
-            List<String> childNames = new ArrayList<>();
-            for (Child child : childList) {
-                childNames.add(child.getName().toUpperCase());
-            }
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item, childNames);
-            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-            spChild.setAdapter(adapter);
-        }
     }
 
     private void showDatePicker() {
@@ -137,12 +111,12 @@ public class AdminPemeriksaanFragment extends Fragment {
 
             SimpleDateFormat sqlSdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             selectedSqlDate = sqlSdf.format(calendar.getTime());
-
+            
             autoCalculateStatus();
         };
 
         new DatePickerDialog(
-                requireContext(),
+                this,
                 dateSetListener,
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -151,8 +125,6 @@ public class AdminPemeriksaanFragment extends Fragment {
     }
 
     private void autoCalculateStatus() {
-        if (childList.isEmpty() || spChild.getSelectedItemPosition() < 0) return;
-
         String weightStr = etWeight.getText().toString().trim();
         String heightStr = etHeight.getText().toString().trim();
 
@@ -164,8 +136,6 @@ public class AdminPemeriksaanFragment extends Fragment {
         try {
             double weight = Double.parseDouble(weightStr);
             double height = Double.parseDouble(heightStr);
-            int selectedChildPos = spChild.getSelectedItemPosition();
-            int childId = childList.get(selectedChildPos).getId();
 
             String status = dbHelper.calculateNutritionalStatus(childId, selectedSqlDate, weight, height);
             etStatus.setText(status);
@@ -175,11 +145,6 @@ public class AdminPemeriksaanFragment extends Fragment {
     }
 
     private void saveExamination() {
-        if (childList.isEmpty()) {
-            Toast.makeText(requireContext(), "Daftarkan balita terlebih dahulu!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         String weightStr = etWeight.getText().toString().trim();
         String heightStr = etHeight.getText().toString().trim();
 
@@ -197,11 +162,8 @@ public class AdminPemeriksaanFragment extends Fragment {
 
         double weight = Double.parseDouble(weightStr);
         double height = Double.parseDouble(heightStr);
-
-        int selectedChildPos = spChild.getSelectedItemPosition();
-        int childId = childList.get(selectedChildPos).getId();
-
-        // Calculate final status
+        
+        // Calculate status
         String status = dbHelper.calculateNutritionalStatus(childId, selectedSqlDate, weight, height);
 
         Examination exam = new Examination();
@@ -213,21 +175,10 @@ public class AdminPemeriksaanFragment extends Fragment {
 
         long result = dbHelper.addExamination(exam);
         if (result != -1) {
-            Toast.makeText(requireContext(), "Pemeriksaan berhasil disimpan! Status: " + status, Toast.LENGTH_LONG).show();
-            // Reset form
-            etWeight.setText("");
-            etHeight.setText("");
-            etStatus.setText("");
-            setDefaultDate();
+            Toast.makeText(this, "Pemeriksaan berhasil disimpan! Status: " + status, Toast.LENGTH_LONG).show();
+            finish();
         } else {
-            Toast.makeText(requireContext(), "Gagal menyimpan pemeriksaan", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Gagal menyimpan pemeriksaan", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        loadChildren();
-        autoCalculateStatus();
     }
 }

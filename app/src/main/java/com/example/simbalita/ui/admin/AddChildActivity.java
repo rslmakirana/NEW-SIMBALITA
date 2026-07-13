@@ -3,18 +3,14 @@ package com.example.simbalita.ui.admin;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import com.example.simbalita.R;
 import com.example.simbalita.database.DatabaseHelper;
 import com.example.simbalita.model.Child;
@@ -33,13 +29,11 @@ public class AddChildActivity extends AppCompatActivity {
     private Spinner spGender, spMother;
     private Button btnSave;
     private ImageView ivBack;
-    private TextView tvTitle, tvNoMotherWarning;
-    private View vHeader;
     
     private DatabaseHelper dbHelper;
     private boolean isEdit = false;
     private int childId = -1;
-    private String selectedSqlDate = ""; // stores yyyy-MM-dd
+    private String selectedSqlDate = ""; // yyyy-MM-dd
     private String userRole = "ADMIN";
     private int currentUserId = -1;
     
@@ -52,103 +46,80 @@ public class AddChildActivity extends AppCompatActivity {
         
         dbHelper = new DatabaseHelper(this);
 
-        // Read user role and details
+        // Read user role
         SharedPreferences pref = getSharedPreferences("simbalita_prefs", Context.MODE_PRIVATE);
         userRole = pref.getString("user_role", "ADMIN");
         currentUserId = pref.getInt("user_id", -1);
 
-        // Set role based theme before inflating layout
-        if (userRole.equals("ADMIN")) {
-            setTheme(R.style.Theme_Simbalita_Admin);
-        } else {
-            setTheme(R.style.Theme_Simbalita_Ibu);
-        }
-        
         setContentView(R.layout.activity_add_child);
 
-        // Bind views
-        vHeader = findViewById(R.id.v_add_child_header);
-        ivBack = findViewById(R.id.iv_add_child_back);
-        tvTitle = findViewById(R.id.tv_add_child_title);
-        etName = findViewById(R.id.et_child_name);
-        etBirthDate = findViewById(R.id.et_child_birth_date);
-        spGender = findViewById(R.id.sp_child_gender);
-        etBirthWeight = findViewById(R.id.et_child_birth_weight);
-        etBirthHeight = findViewById(R.id.et_child_birth_height);
-        spMother = findViewById(R.id.sp_child_mother);
-        tvNoMotherWarning = findViewById(R.id.tv_no_mother_warning);
-        btnSave = findViewById(R.id.btn_child_save);
-
-        // Setup theme colors dynamically
-        applyThemeColors();
+        // Bind Views
+        ivBack = findViewById(R.id.btn_back_add_child);
+        etName = findViewById(R.id.et_add_child_name);
+        etBirthDate = findViewById(R.id.et_add_child_birth_date);
+        spGender = findViewById(R.id.sp_add_child_gender);
+        etBirthWeight = findViewById(R.id.et_add_child_weight);
+        etBirthHeight = findViewById(R.id.et_add_child_height);
+        spMother = findViewById(R.id.sp_add_child_mother);
+        btnSave = findViewById(R.id.btn_add_child_save);
 
         ivBack.setOnClickListener(v -> finish());
 
-        // Setup Genders
+        // Setup Genders Dropdown
         String[] genders = {"Laki-laki", "Perempuan"};
-        ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genders);
-        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, genders);
+        genderAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spGender.setAdapter(genderAdapter);
-
-        // Setup Mothers spinner
-        setupMotherSpinner();
-
-        // Date Picker Dialog
-        etBirthDate.setOnClickListener(v -> showDatePicker());
 
         // Check if editing
         isEdit = getIntent().getBooleanExtra("is_edit", false);
         childId = getIntent().getIntExtra("child_id", -1);
 
+        // Setup Mothers Dropdown
+        setupMotherSpinner();
+
+        // Date Picker dropdown-like action
+        etBirthDate.setOnClickListener(v -> showDatePicker());
+
         if (isEdit && childId != -1) {
-            tvTitle.setText("Edit Data Balita");
             loadChildData();
         }
 
         btnSave.setOnClickListener(v -> saveChildData());
     }
 
-    private void applyThemeColors() {
-        if (!userRole.equals("ADMIN")) {
-            // Apply Mother Green Theme
-            int greenColor = ContextCompat.getColor(this, R.color.primary_ibu);
-            vHeader.setBackgroundColor(greenColor);
-            btnSave.setBackgroundTintList(ColorStateList.valueOf(greenColor));
-        }
-    }
-
     private void setupMotherSpinner() {
-        if (userRole.equals("IBU")) {
-            // Mother role: she can only choose herself! Hide the selector and save the mother ID directly.
-            findViewById(R.id.sp_child_mother).setVisibility(View.GONE);
-            // also hide title label for Pilih Ibu
-            spMother.setVisibility(View.GONE);
-            return;
-        }
+        List<User> allMothers = dbHelper.getMothers();
+        motherList = new ArrayList<>();
 
-        // Admin role: fetch all mothers
-        motherList = dbHelper.getMothers();
+        for (User mother : allMothers) {
+            List<Child> kids = dbHelper.getChildrenByMother(mother.getId());
+            if (kids.isEmpty()) {
+                motherList.add(mother);
+            } else if (isEdit && childId != -1) {
+                Child currentChild = dbHelper.getChildById(childId);
+                if (currentChild != null && currentChild.getMotherId() == mother.getId()) {
+                    motherList.add(mother);
+                }
+            }
+        }
 
         if (motherList.isEmpty()) {
-            tvNoMotherWarning.setVisibility(View.VISIBLE);
             spMother.setEnabled(false);
-            
             List<String> emptyList = new ArrayList<>();
-            emptyList.add("Tidak ada Ibu terdaftar");
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, emptyList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            emptyList.add("Tidak ada Ibu yang tersedia");
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, emptyList);
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
             spMother.setAdapter(adapter);
         } else {
-            tvNoMotherWarning.setVisibility(View.GONE);
             spMother.setEnabled(true);
-
             List<String> motherNames = new ArrayList<>();
             for (User mother : motherList) {
                 motherNames.add(mother.getName() + " (" + mother.getPhone() + ")");
             }
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, motherNames);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, motherNames);
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
             spMother.setAdapter(adapter);
         }
     }
@@ -159,11 +130,9 @@ public class AddChildActivity extends AppCompatActivity {
             calendar.set(Calendar.MONTH, month);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-            // Set displayed date e.g. "10 Mei 2024"
             SimpleDateFormat displaySdf = new SimpleDateFormat("dd MMM yyyy", new Locale("id", "ID"));
             etBirthDate.setText(displaySdf.format(calendar.getTime()));
 
-            // Store database formatted date "yyyy-MM-dd"
             SimpleDateFormat sqlSdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             selectedSqlDate = sqlSdf.format(calendar.getTime());
         };
@@ -182,7 +151,6 @@ public class AddChildActivity extends AppCompatActivity {
         if (child != null) {
             etName.setText(child.getName());
             
-            // Set birth date
             selectedSqlDate = child.getBirthDate();
             SimpleDateFormat sqlSdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             SimpleDateFormat displaySdf = new SimpleDateFormat("dd MMM yyyy", new Locale("id", "ID"));
@@ -196,7 +164,6 @@ public class AddChildActivity extends AppCompatActivity {
                 etBirthDate.setText(child.getBirthDate());
             }
 
-            // Set Gender selection
             if (child.getGender().equals("Laki-laki")) {
                 spGender.setSelection(0);
             } else {
@@ -206,13 +173,10 @@ public class AddChildActivity extends AppCompatActivity {
             etBirthWeight.setText(String.valueOf(child.getBirthWeight()));
             etBirthHeight.setText(String.valueOf(child.getBirthHeight()));
 
-            // Set Mother selection
-            if (userRole.equals("ADMIN")) {
-                for (int i = 0; i < motherList.size(); i++) {
-                    if (motherList.get(i).getId() == child.getMotherId()) {
-                        spMother.setSelection(i);
-                        break;
-                    }
+            for (int i = 0; i < motherList.size(); i++) {
+                if (motherList.get(i).getId() == child.getMotherId()) {
+                    spMother.setSelection(i);
+                    break;
                 }
             }
         }
@@ -252,16 +216,19 @@ public class AddChildActivity extends AppCompatActivity {
         double weight = Double.parseDouble(weightStr);
         double height = Double.parseDouble(heightStr);
 
-        int targetMotherId = -1;
-        if (userRole.equals("IBU")) {
-            targetMotherId = currentUserId;
-        } else {
-            if (motherList.isEmpty()) {
-                Toast.makeText(this, "Silakan registrasikan akun Ibu terlebih dahulu!", Toast.LENGTH_LONG).show();
+        if (motherList.isEmpty()) {
+            Toast.makeText(this, "Silakan registrasikan akun Ibu terlebih dahulu!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        int selectedMotherPos = spMother.getSelectedItemPosition();
+        int targetMotherId = motherList.get(selectedMotherPos).getId();
+
+        if (!isEdit) {
+            List<Child> existingChildren = dbHelper.getChildrenByMother(targetMotherId);
+            if (!existingChildren.isEmpty()) {
+                Toast.makeText(this, "Ibu ini sudah memiliki anak terdaftar!", Toast.LENGTH_LONG).show();
                 return;
             }
-            int selectedMotherPos = spMother.getSelectedItemPosition();
-            targetMotherId = motherList.get(selectedMotherPos).getId();
         }
 
         Child child = new Child();

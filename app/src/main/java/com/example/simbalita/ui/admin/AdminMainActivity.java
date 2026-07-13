@@ -34,14 +34,10 @@ public class AdminMainActivity extends AppCompatActivity {
 
             if (itemId == R.id.menu_admin_dashboard) {
                 selectedFragment = new AdminDashboardFragment();
-            } else if (itemId == R.id.menu_admin_peserta) {
-                selectedFragment = new AdminDataPesertaFragment();
             } else if (itemId == R.id.menu_admin_pemeriksaan) {
                 selectedFragment = new AdminPemeriksaanFragment();
             } else if (itemId == R.id.menu_admin_jadwal) {
                 selectedFragment = new AdminJadwalFragment();
-            } else if (itemId == R.id.menu_admin_laporan) {
-                selectedFragment = new AdminLaporanFragment();
             }
 
             if (selectedFragment != null) {

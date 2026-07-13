@@ -9,24 +9,24 @@
     <color name="border_color">#D0C7B7</color>
     <color name="cream_palette">#F6E4C4</color>
 
-    <!-- User (Ibu) Theme Colors (Vivid Turquoise Sunset - Teal & Turquoise) -->
-    <color name="primary_ibu">#28B1A6</color>
-    <color name="primary_dark_ibu">#1D857D</color>
-    <color name="secondary_ibu">#32CBB4</color>
-    <color name="accent_ibu">#EC837E</color> <!-- Coral accent -->
-    <color name="accent_light_ibu">#FDEBEA</color>
-    <color name="primary_light_ibu">#D3F6F1</color>
+    <!-- User (Ibu) Theme Colors (Green) -->
+    <color name="primary_ibu">#40712A</color>
+    <color name="primary_dark_ibu">#2C501C</color>
+    <color name="secondary_ibu">#4F8B35</color>
+    <color name="accent_ibu">#40712A</color>
+    <color name="accent_light_ibu">#EBF5E8</color>
+    <color name="primary_light_ibu">#EBF5E8</color>
     
-    <!-- Admin (Kader) Theme Colors (Vivid Turquoise Sunset - Coral & Cream) -->
-    <color name="primary_admin">#EC837E</color>
-    <color name="primary_dark_admin">#D66F6A</color>
-    <color name="accent_admin">#32CBB4</color>
-    <color name="primary_light_admin">#FDEBEA</color>
+    <!-- Admin (Kader) Theme Colors (Blue) -->
+    <color name="primary_admin">#1B5A88</color>
+    <color name="primary_dark_admin">#123F61</color>
+    <color name="accent_admin">#1B5A88</color>
+    <color name="primary_light_admin">#EBF4FB</color>
     
     <!-- Status Colors -->
-    <color name="status_normal">#28B1A6</color>
-    <color name="status_warning">#F6E4C4</color>
+    <color name="status_normal">#40712A</color>
+    <color name="status_warning">#FFE0B2</color>
     <color name="status_danger">#EC837E</color>
     <color name="status_danger_light">#FDEBEA</color>
-    <color name="status_normal_light">#D3F6F1</color>
+    <color name="status_normal_light">#EBF5E8</color>
 </resources>

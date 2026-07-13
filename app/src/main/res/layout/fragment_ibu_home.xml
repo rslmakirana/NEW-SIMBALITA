@@ -1,342 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_app"
+    android:background="@color/primary_ibu"
     android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
 
-        <!-- Top Banner (Green) -->
-        <View
-            android:id="@+id/v_home_banner"
+        <!-- Header Layout (App Title + Bell Icon) -->
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:background="@color/primary_ibu"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/iv_home_menu"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="32dp"
-            android:src="@drawable/ic_menu"
-            app:tint="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_home_welcome"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="Halo, Ibu 👋"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/iv_home_notification"
-            app:layout_constraintStart_toEndOf="@id/iv_home_menu"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp">
 
-        <TextView
-            android:id="@+id/tv_home_subtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Semoga harimu menyenangkan!"
-            android:textColor="@color/primary_light_ibu"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/iv_home_notification"
-            app:layout_constraintStart_toStartOf="@id/tv_home_welcome"
-            app:layout_constraintTop_toBottomOf="@id/tv_home_welcome" />
+            <TextView
+                android:id="@+id/tv_home_welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HALO IBU &amp; ANAK"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@id/iv_home_bell"
+                android:layout_marginEnd="12dp"
+                android:layout_centerVertical="true" />
 
-        <ImageView
-            android:id="@+id/iv_home_notification"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="24dp"
-            android:src="@drawable/ic_bell"
-            app:tint="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <!-- Bell Icon -->
+            <ImageView
+                android:id="@+id/iv_home_bell"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_bell"
+                android:contentDescription="Notifikasi"
+                app:tint="@color/white"
+                xmlns:app="http://schemas.android.com/apk/res-auto" />
 
-        <!-- Card Container (Floating overlap) -->
+        </RelativeLayout>
+
+        <!-- Card 1: Nama Anak -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/cv_child_selector"
+            android:id="@+id/cv_nama_anak"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="120dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
             app:cardBackgroundColor="@color/white"
-            app:layout_constraintTop_toTopOf="parent">
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+
+            <TextView
+                android:id="@+id/tv_child_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="20dp"
+                android:text="NAMA ANAK"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Card 2: Jadwal Posyandu (Sebulan Sekali) -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_home_jadwal_posyandu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/white"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pilih Anak"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <Spinner
-                    android:id="@+id/sp_home_child"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="8dp"
-                    android:spinnerMode="dropdown" />
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="JADWAL POSYANDU BULAN INI"
+                    android:textColor="@color/primary_ibu"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Container list for 1 schedule only -->
+                <LinearLayout
+                    android:id="@+id/ll_home_posyandu_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+                <TextView
+                    android:id="@+id/tv_home_posyandu_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Belum ada jadwal posyandu bulan ini."
+                    android:textColor="@color/text_secondary"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
-        <!-- No Child Alert View -->
-        <TextView
-            android:id="@+id/tv_no_child_alert"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/bg_status_badge"
-            android:backgroundTint="@color/status_danger_light"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="Belum ada data anak terdaftar. Hubungi Kader Posyandu untuk mendaftarkan data balita Anda."
-            android:textColor="@color/status_danger"
-            android:textSize="14sp"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/cv_child_selector" />
-
-        <!-- Measurements Container -->
-        <LinearLayout
-            android:id="@+id/ll_measurements"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="24dp"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/tv_no_child_alert">
-
-            <!-- Weight Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardElevation="2dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/tv_weight_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Berat Badan Terakhir"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_home_weight_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="-- Kg"
-                        android:textColor="@color/text_primary"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_weight_label" />
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_scale"
-                        android:background="#E1F5FE"
-                        app:tint="@color/accent_ibu"
-                        android:padding="8dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Status Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardElevation="2dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/tv_status_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Status"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_home_status_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="--"
-                        android:textColor="@color/status_normal"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_status_label" />
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_heart"
-                        android:background="@color/status_normal_light"
-                        app:tint="@color/primary_ibu"
-                        android:padding="8dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
-
-        <!-- Posyandu Schedule Header -->
-        <TextView
-            android:id="@+id/tv_home_schedule_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:text="Jadwal Posyandu"
-            android:textColor="@color/text_primary"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_measurements" />
-
-        <!-- Next Schedule Card -->
+        <!-- Card 3: Grafik Anak (KMS) Langsung -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/cv_home_schedule"
+            android:id="@+id/cv_home_grafik_anak"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="24dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
             app:cardBackgroundColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_home_schedule_header">
+            xmlns:app="http://schemas.android.com/apk/res-auto">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp">
-
-                <ImageView
-                    android:id="@+id/iv_home_sch_icon"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:src="@drawable/ic_calendar"
-                    android:background="#FFE0B2"
-                    app:tint="#F57C00"
-                    android:padding="10dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <TextView
-                    android:id="@+id/tv_home_sch_date"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="15 Juli 2026"
-                    android:textColor="@color/text_primary"
+                    android:gravity="center_horizontal"
+                    android:text="GRAFIK PERKEMBANGAN ANAK (KMS)"
+                    android:textColor="@color/primary_ibu"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/iv_home_sch_icon"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Custom KMS Chart View directly displayed -->
+                <com.example.simbalita.ui.ibu.KmsGraphView
+                    android:id="@+id/home_kms_graph_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp" />
 
                 <TextView
-                    android:id="@+id/tv_home_sch_time"
-                    android:layout_width="0dp"
+                    android:id="@+id/tv_home_graph_empty"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="2dp"
-                    android:text="08.00 WIB"
+                    android:gravity="center"
+                    android:text="Belum ada data pemeriksaan untuk membuat grafik."
                     android:textColor="@color/text_secondary"
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/iv_home_sch_icon"
-                    app:layout_constraintTop_toBottomOf="@id/tv_home_sch_date" />
+                    android:visibility="gone"
+                    android:layout_marginTop="12dp" />
 
-                <TextView
-                    android:id="@+id/tv_home_sch_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:text="Posyandu Melati 1"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/iv_home_sch_icon"
-                    app:layout_constraintTop_toBottomOf="@id/tv_home_sch_time" />
-
-                <TextView
-                    android:id="@+id/tv_home_sch_location"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="2dp"
-                    android:text="Jl. Melati No. 10"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/iv_home_sch_icon"
-                    app:layout_constraintTop_toBottomOf="@id/tv_home_sch_title" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </ScrollView>

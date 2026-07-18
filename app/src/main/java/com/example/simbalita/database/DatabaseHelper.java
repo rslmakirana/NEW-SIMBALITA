@@ -17,7 +17,7 @@ import java.util.Locale;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "simbalita.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 8;
 
     // Table names
     public static final String TABLE_USERS = "users";
@@ -58,6 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_SCH_TIME = "time";
     public static final String COL_SCH_TITLE = "title";
     public static final String COL_SCH_LOCATION = "location";
+    public static final String COL_SCH_STATUS = "status";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -100,7 +101,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_SCH_DATE + " TEXT, " +
                 COL_SCH_TIME + " TEXT, " +
                 COL_SCH_TITLE + " TEXT, " +
-                COL_SCH_LOCATION + " TEXT)";
+                COL_SCH_LOCATION + " TEXT, " +
+                COL_SCH_STATUS + " TEXT)";
 
         db.execSQL(createUsersTable);
         db.execSQL(createChildrenTable);
@@ -144,6 +146,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(COL_SCH_TIME, sch[1]);
             values.put(COL_SCH_TITLE, sch[2]);
             values.put(COL_SCH_LOCATION, sch[3]);
+            values.put(COL_SCH_STATUS, "Belum Terlaksana");
             db.insert(TABLE_SCHEDULES, null, values);
         }
     }
@@ -321,6 +324,56 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String rawQuery = "SELECT c.* FROM " + TABLE_CHILDREN + " c LEFT JOIN " + TABLE_USERS + " u ON c." + COL_CHILD_MOTHER_ID + " = u." + COL_USER_ID +
                 " WHERE c." + COL_CHILD_NAME + " LIKE ? OR u." + COL_USER_NAME + " LIKE ?";
         Cursor cursor = db.rawQuery(rawQuery, new String[]{"%" + query + "%", "%" + query + "%"});
+        if (cursor.moveToFirst()) {
+            do {
+                list.add(new Child(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COL_CHILD_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_CHILD_NAME)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_CHILD_BIRTH_DATE)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_CHILD_GENDER)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(COL_CHILD_BIRTH_WEIGHT)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(COL_CHILD_BIRTH_HEIGHT)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COL_CHILD_MOTHER_ID))
+                ));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    public List<Child> getChildrenCheckedOnDate(String dateString) {
+        List<Child> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String rawQuery = "SELECT DISTINCT c.* FROM " + TABLE_CHILDREN + " c " +
+                "INNER JOIN " + TABLE_EXAMINATIONS + " e ON c." + COL_CHILD_ID + " = e." + COL_EXAM_CHILD_ID + " " +
+                "WHERE e." + COL_EXAM_DATE + " = ? ORDER BY c." + COL_CHILD_NAME + " ASC";
+        Cursor cursor = db.rawQuery(rawQuery, new String[]{dateString});
+        if (cursor.moveToFirst()) {
+            do {
+                list.add(new Child(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COL_CHILD_ID)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_CHILD_NAME)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_CHILD_BIRTH_DATE)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_CHILD_GENDER)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(COL_CHILD_BIRTH_WEIGHT)),
+                        cursor.getDouble(cursor.getColumnIndexOrThrow(COL_CHILD_BIRTH_HEIGHT)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(COL_CHILD_MOTHER_ID))
+                ));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    public List<Child> searchChildrenCheckedOnDate(String query, String dateString) {
+        List<Child> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String rawQuery = "SELECT DISTINCT c.* FROM " + TABLE_CHILDREN + " c " +
+                "INNER JOIN " + TABLE_EXAMINATIONS + " e ON c." + COL_CHILD_ID + " = e." + COL_EXAM_CHILD_ID + " " +
+                "LEFT JOIN " + TABLE_USERS + " u ON c." + COL_CHILD_MOTHER_ID + " = u." + COL_USER_ID + " " +
+                "WHERE e." + COL_EXAM_DATE + " = ? AND (c." + COL_CHILD_NAME + " LIKE ? OR u." + COL_USER_NAME + " LIKE ?) " +
+                "ORDER BY c." + COL_CHILD_NAME + " ASC";
+        Cursor cursor = db.rawQuery(rawQuery, new String[]{dateString, "%" + query + "%", "%" + query + "%"});
         if (cursor.moveToFirst()) {
             do {
                 list.add(new Child(
@@ -529,6 +582,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_SCH_TIME, schedule.getTime());
         values.put(COL_SCH_TITLE, schedule.getTitle());
         values.put(COL_SCH_LOCATION, schedule.getLocation());
+        values.put(COL_SCH_STATUS, schedule.getStatus() != null ? schedule.getStatus() : "Belum Terlaksana");
         return db.insert(TABLE_SCHEDULES, null, values);
     }
 
@@ -539,6 +593,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_SCH_TIME, schedule.getTime());
         values.put(COL_SCH_TITLE, schedule.getTitle());
         values.put(COL_SCH_LOCATION, schedule.getLocation());
+        values.put(COL_SCH_STATUS, schedule.getStatus() != null ? schedule.getStatus() : "Belum Terlaksana");
         return db.update(TABLE_SCHEDULES, values, COL_SCH_ID + "=?", new String[]{String.valueOf(schedule.getId())}) > 0;
     }
 
@@ -558,7 +613,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_DATE)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_TIME)),
                         cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_TITLE)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_LOCATION))
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_LOCATION)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_STATUS))
                 ));
             } while (cursor.moveToNext());
         }
@@ -578,7 +634,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_DATE)),
                     cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_TIME)),
                     cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_TITLE)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_LOCATION))
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_LOCATION)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_STATUS))
             );
             cursor.close();
             return schedule;
@@ -592,7 +649,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_DATE)),
                     cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_TIME)),
                     cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_TITLE)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_LOCATION))
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_LOCATION)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_STATUS))
             );
             cursor.close();
             return schedule;

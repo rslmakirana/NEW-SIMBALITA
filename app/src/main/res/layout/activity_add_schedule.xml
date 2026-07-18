@@ -147,6 +147,22 @@
                         android:textSize="15sp"
                         android:paddingHorizontal="16dp"
                         android:singleLine="true"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Status -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+                    <Spinner
+                        android:id="@+id/sp_sch_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_input_blue"
+                        android:paddingHorizontal="16dp"
                         android:layout_marginBottom="24dp" />
 
                 </LinearLayout>

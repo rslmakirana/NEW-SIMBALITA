@@ -37,6 +37,15 @@ public class AdminDashboardFragment extends Fragment {
             });
         }
 
+        androidx.cardview.widget.CardView cvPemeriksaanHariIni = view.findViewById(R.id.cv_pemeriksaan_hari_ini);
+        if (cvPemeriksaanHariIni != null) {
+            cvPemeriksaanHariIni.setOnClickListener(v -> {
+                android.content.Intent intent = new android.content.Intent(requireContext(), DataPesertaActivity.class);
+                intent.putExtra("filter_today", true);
+                startActivity(intent);
+            });
+        }
+
         ImageView ivLogout = view.findViewById(R.id.iv_admin_logout);
         if (ivLogout != null) {
             ivLogout.setOnClickListener(v -> {

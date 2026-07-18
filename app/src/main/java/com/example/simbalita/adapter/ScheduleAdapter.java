@@ -50,6 +50,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         String dateFormatted = formatDateStr(schedule.getDate());
         holder.tvDateTime.setText(dateFormatted + " - " + schedule.getTime());
 
+        if (schedule.getStatus() != null) {
+            holder.tvStatus.setText("Status: " + schedule.getStatus());
+        } else {
+            holder.tvStatus.setText("Status: Belum Terlaksana");
+        }
+
         if (isAdmin) {
             holder.ivEdit.setVisibility(View.VISIBLE);
             holder.ivDelete.setVisibility(View.VISIBLE);
@@ -84,7 +90,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDateTime, tvTitle, tvLocation;
+        TextView tvDateTime, tvTitle, tvLocation, tvStatus;
         ImageView ivEdit, ivDelete;
 
         public ViewHolder(@NonNull View itemView) {
@@ -92,6 +98,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
             tvDateTime = itemView.findViewById(R.id.tv_sch_datetime);
             tvTitle = itemView.findViewById(R.id.tv_sch_title);
             tvLocation = itemView.findViewById(R.id.tv_sch_location);
+            tvStatus = itemView.findViewById(R.id.tv_sch_status);
             ivEdit = itemView.findViewById(R.id.iv_sch_edit);
             ivDelete = itemView.findViewById(R.id.iv_sch_delete);
         }

@@ -21,14 +21,16 @@ public class ChildAdminAdapter extends RecyclerView.Adapter<ChildAdminAdapter.Vi
     private final List<Child> childList;
     private final DatabaseHelper dbHelper;
     private final OnChildClickListener listener;
+    private final boolean filterToday;
 
     public interface OnChildClickListener {
         void onChildClick(Child child);
     }
 
-    public ChildAdminAdapter(List<Child> childList, DatabaseHelper dbHelper, OnChildClickListener listener) {
+    public ChildAdminAdapter(List<Child> childList, DatabaseHelper dbHelper, boolean filterToday, OnChildClickListener listener) {
         this.childList = childList;
         this.dbHelper = dbHelper;
+        this.filterToday = filterToday;
         this.listener = listener;
     }
 
@@ -50,20 +52,28 @@ public class ChildAdminAdapter extends RecyclerView.Adapter<ChildAdminAdapter.Vi
         int ageMonths = DatabaseHelper.calculateAgeInMonths(child.getBirthDate(), today);
         holder.tvAge.setText("(" + DatabaseHelper.formatAge(ageMonths) + ")");
 
-        // Gender & Mother details
-        String genderStr = "L".equalsIgnoreCase(child.getGender()) || "Laki-laki".equalsIgnoreCase(child.getGender()) ? "Laki-laki" : "Perempuan";
-        String motherName = "-";
-        User mother = dbHelper.getUserById(child.getMotherId());
-        if (mother != null) {
-            motherName = mother.getName();
-        }
-        holder.tvInfo.setText(genderStr + " | Ibu: " + motherName);
-
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onChildClick(child);
+        if (filterToday) {
+            com.example.simbalita.model.Examination exam = dbHelper.getLatestExamination(child.getId());
+            if (exam != null) {
+                holder.tvInfo.setText("Hasil Pemeriksaan: " + exam.getStatus());
+            } else {
+                holder.tvInfo.setText("Hasil Pemeriksaan: -");
             }
-        });
+        } else {
+            // Gender & Mother details
+            String genderStr = "L".equalsIgnoreCase(child.getGender()) || "Laki-laki".equalsIgnoreCase(child.getGender()) ? "Laki-laki" : "Perempuan";
+            String motherName = "-";
+            User mother = dbHelper.getUserById(child.getMotherId());
+            if (mother != null) {
+                motherName = mother.getName();
+            }
+            holder.tvInfo.setText(genderStr + " | Ibu: " + motherName);
+        }
+
+        // Hide arrow and disable click feedback
+        holder.ivArrow.setVisibility(android.view.View.GONE);
+        holder.itemView.setOnClickListener(null);
+        holder.itemView.setClickable(false);
     }
 
     @Override
@@ -73,14 +83,14 @@ public class ChildAdminAdapter extends RecyclerView.Adapter<ChildAdminAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvAge, tvInfo;
-        ImageView ivAvatar;
+        ImageView ivArrow;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tv_child_name);
             tvAge = itemView.findViewById(R.id.tv_child_age);
             tvInfo = itemView.findViewById(R.id.tv_child_gender);
-            ivAvatar = itemView.findViewById(R.id.iv_child_avatar);
+            ivArrow = itemView.findViewById(R.id.iv_child_arrow);
         }
     }
 }

@@ -20,6 +20,7 @@ import java.util.Locale;
 public class AddScheduleActivity extends AppCompatActivity {
 
     private EditText etDate, etTime, etTitle, etLocation;
+    private android.widget.Spinner spStatus;
     private Button btnSave;
     private ImageView ivBack;
     
@@ -28,6 +29,7 @@ public class AddScheduleActivity extends AppCompatActivity {
     private int scheduleId = -1;
     private String selectedSqlDate = "";
     private Calendar calendar = Calendar.getInstance();
+    private final String[] statusOptions = {"Belum Terlaksana", "Sedang Dilaksanakan", "Selesai"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +42,14 @@ public class AddScheduleActivity extends AppCompatActivity {
         etTime = findViewById(R.id.et_sch_time);
         etTitle = findViewById(R.id.et_sch_title);
         etLocation = findViewById(R.id.et_sch_location);
+        spStatus = findViewById(R.id.sp_sch_status);
         btnSave = findViewById(R.id.btn_sch_save);
         ivBack = findViewById(R.id.btn_back_add_schedule);
+
+        // Setup Spinner
+        android.widget.ArrayAdapter<String> statusAdapter = new android.widget.ArrayAdapter<>(this, R.layout.spinner_item, statusOptions);
+        statusAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spStatus.setAdapter(statusAdapter);
 
         ivBack.setOnClickListener(v -> finish());
 
@@ -126,6 +134,15 @@ public class AddScheduleActivity extends AppCompatActivity {
             etTime.setText(sch.getTime());
             etTitle.setText(sch.getTitle());
             etLocation.setText(sch.getLocation());
+
+            if (sch.getStatus() != null) {
+                for (int i = 0; i < statusOptions.length; i++) {
+                    if (statusOptions[i].equalsIgnoreCase(sch.getStatus())) {
+                        spStatus.setSelection(i);
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -164,6 +181,7 @@ public class AddScheduleActivity extends AppCompatActivity {
         sch.setTime(time);
         sch.setTitle(title);
         sch.setLocation(location);
+        sch.setStatus(spStatus.getSelectedItem().toString());
 
         if (isEdit) {
             sch.setId(scheduleId);

@@ -86,7 +86,10 @@
                     android:layout_marginBottom="24dp"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
-                    app:cardBackgroundColor="#F0F4F8">
+                    app:cardBackgroundColor="#F0F4F8"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -122,11 +125,15 @@
 
                 <!-- Card 2: Pemeriksaan Hari Ini -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_pemeriksaan_hari_ini"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
-                    app:cardBackgroundColor="#F0F4F8">
+                    app:cardBackgroundColor="#F0F4F8"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
 
                     <LinearLayout
                         android:layout_width="match_parent"

@@ -65,6 +65,20 @@
             app:layout_constraintStart_toEndOf="@id/iv_sch_icon"
             app:layout_constraintTop_toBottomOf="@id/tv_sch_title" />
 
+        <TextView
+            android:id="@+id/tv_sch_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="Status: Belum Terlaksana"
+            android:textColor="@color/primary_admin"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/iv_sch_edit"
+            app:layout_constraintStart_toEndOf="@id/iv_sch_icon"
+            app:layout_constraintTop_toBottomOf="@id/tv_sch_location" />
+
         <ImageView
             android:id="@+id/iv_sch_edit"
             android:layout_width="24dp"

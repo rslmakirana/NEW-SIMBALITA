@@ -64,14 +64,12 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvAge, tvGender;
-        ImageView ivAvatar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tv_child_name);
             tvAge = itemView.findViewById(R.id.tv_child_age);
             tvGender = itemView.findViewById(R.id.tv_child_gender);
-            ivAvatar = itemView.findViewById(R.id.iv_child_avatar);
         }
     }
 }

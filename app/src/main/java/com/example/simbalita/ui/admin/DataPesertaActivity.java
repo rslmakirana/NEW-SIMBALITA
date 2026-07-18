@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,10 +24,12 @@ public class DataPesertaActivity extends AppCompatActivity {
     private EditText etSearch;
     private RecyclerView rvPeserta;
     private Button btnTambahPeserta;
+    private TextView tvTitle;
 
     private DatabaseHelper dbHelper;
     private List<Child> childList = new ArrayList<>();
     private ChildAdminAdapter adapter;
+    private boolean filterToday = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,18 @@ public class DataPesertaActivity extends AppCompatActivity {
         etSearch = findViewById(R.id.et_search_peserta);
         rvPeserta = findViewById(R.id.rv_peserta_list);
         btnTambahPeserta = findViewById(R.id.btn_tambah_peserta);
+        tvTitle = findViewById(R.id.tv_title_data_peserta);
+
+        // Get filter extra
+        filterToday = getIntent().getBooleanExtra("filter_today", false);
+        if (filterToday) {
+            if (tvTitle != null) {
+                tvTitle.setText("PEMERIKSAAN HARI INI");
+            }
+            if (btnTambahPeserta != null) {
+                btnTambahPeserta.setVisibility(android.view.View.GONE);
+            }
+        }
 
         // RecyclerView setup
         rvPeserta.setLayoutManager(new LinearLayoutManager(this));
@@ -72,13 +87,23 @@ public class DataPesertaActivity extends AppCompatActivity {
     }
 
     private void loadData(String query) {
-        if (query.isEmpty()) {
-            childList = dbHelper.getAllChildren();
+        if (filterToday) {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US);
+            String todayStr = sdf.format(new java.util.Date());
+            if (query.isEmpty()) {
+                childList = dbHelper.getChildrenCheckedOnDate(todayStr);
+            } else {
+                childList = dbHelper.searchChildrenCheckedOnDate(query, todayStr);
+            }
         } else {
-            childList = dbHelper.searchChildren(query);
+            if (query.isEmpty()) {
+                childList = dbHelper.getAllChildren();
+            } else {
+                childList = dbHelper.searchChildren(query);
+            }
         }
 
-        adapter = new ChildAdminAdapter(childList, dbHelper, child -> {
+        adapter = new ChildAdminAdapter(childList, dbHelper, filterToday, child -> {
             // Click participant -> open PemeriksaanBalitaActivity
             Intent intent = new Intent(DataPesertaActivity.this, PemeriksaanBalitaActivity.class);
             intent.putExtra("child_id", child.getId());

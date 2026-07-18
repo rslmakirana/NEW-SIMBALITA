@@ -163,10 +163,18 @@ public class IbuHomeFragment extends Fragment {
                 TextView tvDateTime = row.findViewById(R.id.tv_sch_datetime);
                 TextView tvTitle = row.findViewById(R.id.tv_sch_title);
                 TextView tvLocation = row.findViewById(R.id.tv_sch_location);
+                TextView tvStatus = row.findViewById(R.id.tv_sch_status);
 
                 tvDateTime.setText(sch.getDate() + " - " + sch.getTime());
                 tvTitle.setText(sch.getTitle());
                 tvLocation.setText(sch.getLocation());
+                if (tvStatus != null) {
+                    if (sch.getStatus() != null) {
+                        tvStatus.setText("Status: " + sch.getStatus());
+                    } else {
+                        tvStatus.setText("Status: Belum Terlaksana");
+                    }
+                }
 
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_admin"
+    android:background="@drawable/background_blue"
     android:fillViewport="true">
 
     <LinearLayout
@@ -30,7 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DASBOARD ADMIN"
-                    android:textColor="@color/white"
+                    android:textColor="@color/accent_admin"
                     android:textSize="26sp"
                     android:textStyle="bold" />
 
@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="SELAMAT DATANG"
-                    android:textColor="@color/white"
+                    android:textColor="@color/accent_admin"
                     android:textSize="12sp"
                     android:textStyle="normal" />
 
@@ -57,7 +57,7 @@
                 android:focusable="true"
                 android:src="@drawable/ic_logout"
                 android:contentDescription="Logout"
-                app:tint="@color/white"
+                app:tint="@color/accent_admin"
                 xmlns:app="http://schemas.android.com/apk/res-auto" />
 
         </RelativeLayout>

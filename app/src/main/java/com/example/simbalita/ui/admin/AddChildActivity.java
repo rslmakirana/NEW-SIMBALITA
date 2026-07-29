@@ -115,7 +115,7 @@ public class AddChildActivity extends AppCompatActivity {
             spMother.setEnabled(true);
             List<String> motherNames = new ArrayList<>();
             for (User mother : motherList) {
-                motherNames.add(mother.getName() + " (" + mother.getPhone() + ")");
+                motherNames.add(" [ " + mother.getUsername() + " ] " + mother.getName() + " (" + mother.getPhone() + ")");
             }
 
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, motherNames);

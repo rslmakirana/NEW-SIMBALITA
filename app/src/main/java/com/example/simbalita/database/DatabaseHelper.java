@@ -17,7 +17,7 @@ import java.util.Locale;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "simbalita.db";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
 
     // Table names
     public static final String TABLE_USERS = "users";
@@ -131,6 +131,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CHILDREN);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         onCreate(db);
+    }
+
+    public void resetDatabaseToDefault(Context context) {
+        SQLiteDatabase db = getWritableDatabase();
+        onUpgrade(db, 0, DATABASE_VERSION);
+        if (context != null) {
+            context.getSharedPreferences("simbalita_prefs", Context.MODE_PRIVATE).edit().clear().apply();
+        }
     }
 
     private void seedSchedules(SQLiteDatabase db) {

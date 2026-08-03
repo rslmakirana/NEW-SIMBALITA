@@ -31,7 +31,7 @@ public class KmsGraphView extends View {
     private String birthDate = "2025-01-01"; // Default birth date
 
     // KMS coordinates: age (0-24 months) vs weight (0-16 kg)
-    private static final int MAX_AGE_MONTHS = 18;
+    private static final int MAX_AGE_MONTHS = 24;
     private static final float MAX_WEIGHT_KG = 16.0f;
 
     public KmsGraphView(Context context) {

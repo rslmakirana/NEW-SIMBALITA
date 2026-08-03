@@ -14,7 +14,12 @@ import com.example.simbalita.R;
 import com.example.simbalita.adapter.ScheduleAdapter;
 import com.example.simbalita.database.DatabaseHelper;
 import com.example.simbalita.model.Schedule;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class IbuJadwalFragment extends Fragment {
 
@@ -48,9 +53,10 @@ public class IbuJadwalFragment extends Fragment {
         } else {
             tvEmpty.setVisibility(View.GONE);
             rvSchedules.setVisibility(View.VISIBLE);
-            
+
             ScheduleAdapter adapter = new ScheduleAdapter(list, false, null);
             rvSchedules.setAdapter(adapter);
         }
     }
+
 }

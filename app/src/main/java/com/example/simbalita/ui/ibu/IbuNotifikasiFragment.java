@@ -20,6 +20,7 @@ import com.example.simbalita.model.Child;
 import com.example.simbalita.model.Notification;
 import java.util.ArrayList;
 import java.util.List;
+import com.example.simbalita.model.Schedule;
 
 public class IbuNotifikasiFragment extends Fragment {
 
@@ -59,13 +60,29 @@ public class IbuNotifikasiFragment extends Fragment {
 
         rvNotifications.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        // Populate realistic notifications
+        // Ambil jadwal dari database
         List<Notification> list = new ArrayList<>();
-        list.add(new Notification(1, "Besok Jadwal Posyandu", "Jadwal posyandu berikutnya pada 15 Juli 2026, 08.00 WIB di Posyandu Melati 1.", "Kemarin", "schedule"));
-        list.add(new Notification(2, "Jadwal Imunisasi DPT", "Jangan lupa imunisasi DPT untuk " + childName + " pada tanggal 20 Juni 2026.", "2 hari lalu", "vaccine"));
-        list.add(new Notification(3, "Pemberian Vitamin A", "Bulan Agustus 2026 adalah bulan pemberian kapsul Vitamin A. Harap kunjungi Posyandu.", "3 hari lalu", "bell"));
-        list.add(new Notification(4, "Pengingat Kehadiran", childName + " terdeteksi belum menghadiri Posyandu sejak Mei 2026.", "1 minggu lalu", "bell"));
 
+        List<Schedule> schedules = dbHelper.getAllSchedules();
+
+        for (Schedule schedule : schedules) {
+
+            String title = "Jadwal Posyandu";
+
+            String body =
+                    schedule.getTitle()
+                            + "\nTanggal : " + schedule.getDate()
+                            + "\nJam : " + schedule.getTime()
+                            + "\nLokasi : " + schedule.getLocation();
+
+            list.add(new Notification(
+                    schedule.getId(),
+                    title,
+                    body,
+                    schedule.getDate(),
+                    "schedule"
+            ));
+        }
         NotificationAdapter adapter = new NotificationAdapter(requireContext(), list);
         rvNotifications.setAdapter(adapter);
 

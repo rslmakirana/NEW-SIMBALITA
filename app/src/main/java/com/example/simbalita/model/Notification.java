@@ -17,6 +17,8 @@ public class Notification {
         this.iconType = iconType;
     }
 
+
+
     public int getId() {
         return id;
     }

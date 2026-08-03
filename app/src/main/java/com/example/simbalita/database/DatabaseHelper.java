@@ -17,13 +17,14 @@ import java.util.Locale;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "simbalita.db";
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 12;
 
     // Table names
     public static final String TABLE_USERS = "users";
     public static final String TABLE_CHILDREN = "children";
     public static final String TABLE_EXAMINATIONS = "examinations";
     public static final String TABLE_SCHEDULES = "schedules";
+    public static final String TABLE_NOTIFICATIONS = "notifications";
 
     // User columns
     public static final String COL_USER_ID = "id";
@@ -104,12 +105,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_SCH_LOCATION + " TEXT, " +
                 COL_SCH_STATUS + " TEXT)";
 
+        String createNotificationsTable = "CREATE TABLE " + TABLE_NOTIFICATIONS + " (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "title TEXT, " +
+                "body TEXT, " +
+                "time_label TEXT, " +
+                "icon_type TEXT)";
+
         db.execSQL(createUsersTable);
         db.execSQL(createChildrenTable);
         db.execSQL(createExaminationsTable);
         db.execSQL(createSchedulesTable);
+        db.execSQL(createNotificationsTable);
 
-        // Preseed Admin
+        // Preseed Admin (Kader) ONLY
         ContentValues adminValues = new ContentValues();
         adminValues.put(COL_USER_NAME, "Kader Posyandu");
         adminValues.put(COL_USER_PHONE, "081234567890");
@@ -126,11 +135,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCHEDULES);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXAMINATIONS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CHILDREN);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
-        onCreate(db);
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NOTIFICATIONS + " (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "title TEXT, " +
+                "body TEXT, " +
+                "time_label TEXT, " +
+                "icon_type TEXT)");
+        if (oldVersion < 11) {
+            db.execSQL("DELETE FROM " + TABLE_SCHEDULES);
+            db.execSQL("DELETE FROM " + TABLE_NOTIFICATIONS);
+        }
+        if (oldVersion < 12) {
+            db.execSQL("DELETE FROM " + TABLE_USERS + " WHERE " + COL_USER_ROLE + " != 'ADMIN' AND " + COL_USER_USERNAME + " != 'admin'");
+            db.execSQL("DELETE FROM " + TABLE_CHILDREN);
+            db.execSQL("DELETE FROM " + TABLE_EXAMINATIONS);
+        }
     }
 
     public void resetDatabaseToDefault(Context context) {
@@ -142,21 +161,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void seedSchedules(SQLiteDatabase db) {
-        String[][] listJadwal = {
-                {"2026-07-15", "08.00 WIB", "Posyandu Melati 1", "Jl. Melati No. 10"},
-                {"2026-08-12", "08.00 WIB", "Posyandu Melati 1", "Jl. Melati No. 10"},
-                {"2026-09-16", "08.00 WIB", "Posyandu Melati 1", "Jl. Melati No. 10"}
-        };
-
-        for (String[] sch : listJadwal) {
-            ContentValues values = new ContentValues();
-            values.put(COL_SCH_DATE, sch[0]);
-            values.put(COL_SCH_TIME, sch[1]);
-            values.put(COL_SCH_TITLE, sch[2]);
-            values.put(COL_SCH_LOCATION, sch[3]);
-            values.put(COL_SCH_STATUS, "Belum Terlaksana");
-            db.insert(TABLE_SCHEDULES, null, values);
-        }
+        // Empty by default so user creates schedules from scratch
     }
 
     // --- User Methods ---
@@ -607,7 +612,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteSchedule(int scheduleId) {
         SQLiteDatabase db = this.getWritableDatabase();
+        Schedule sch = null;
+        Cursor cursor = db.query(TABLE_SCHEDULES, null, COL_SCH_ID + "=?", new String[]{String.valueOf(scheduleId)}, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            sch = new Schedule(
+                    cursor.getInt(cursor.getColumnIndexOrThrow(COL_SCH_ID)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_DATE)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_TIME)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_TITLE)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_LOCATION)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(COL_SCH_STATUS))
+            );
+            cursor.close();
+        }
         db.delete(TABLE_SCHEDULES, COL_SCH_ID + "=?", new String[]{String.valueOf(scheduleId)});
+        if (sch != null && sch.getTitle() != null) {
+            db.delete(TABLE_NOTIFICATIONS, "title=?", new String[]{sch.getTitle()});
+        }
     }
 
     public List<Schedule> getAllSchedules() {
@@ -667,5 +688,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    public long addNotification(Notification notification) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("title", notification.getTitle());
+        values.put("body", notification.getBody());
+        values.put("time_label", notification.getTimeLabel());
+        values.put("icon_type", notification.getIconType());
+        return db.insert(TABLE_NOTIFICATIONS, null, values);
+    }
 
+    public List<Notification> getAllNotifications() {
+        List<Notification> list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_NOTIFICATIONS, null, null, null, null, null, "id DESC");
+        if (cursor.moveToFirst()) {
+            do {
+                list.add(new Notification(
+                        cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("title")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("body")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("time_label")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("icon_type"))
+                ));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
 }

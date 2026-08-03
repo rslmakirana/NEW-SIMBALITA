@@ -1,5 +1,6 @@
 package com.example.simbalita.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -37,22 +38,32 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         Notification item = list.get(position);
         holder.tvTitle.setText(item.getTitle());
         holder.tvBody.setText(item.getBody());
-        holder.tvTime.setText(item.getTimeLabel());
 
         // Dynamic Icon mapping
-        if ("schedule".equals(item.getIconType())) {
+        if (item.getIconType() != null && item.getIconType().equals("schedule")) {
             holder.ivIcon.setImageResource(R.drawable.ic_calendar);
-            holder.ivIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor("#F57C00"))); // Orange
-            holder.ivIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFE0B2"))); // Light Orange
-        } else if ("vaccine".equals(item.getIconType())) {
+            holder.ivIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor("#D97706"))); // Orange
+            holder.ivIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FEF3C7"))); // Light Orange
+        } else if (item.getIconType() != null && item.getIconType().equals("vaccine")) {
             holder.ivIcon.setImageResource(R.drawable.ic_heart);
             holder.ivIcon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.primary_ibu))); // Green
             holder.ivIcon.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.status_normal_light))); // Light Green
         } else {
             holder.ivIcon.setImageResource(R.drawable.ic_bell);
-            holder.ivIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor("#2196F3"))); // Blue
-            holder.ivIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E3F2FD"))); // Light Blue
+            holder.ivIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor("#0284C7"))); // Blue
+            holder.ivIcon.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E0F2FE"))); // Light Blue
         }
+
+        // OnClick Item Listener for Detail Notification Popup
+        holder.itemView.setOnClickListener(v -> showNotificationDetailDialog(item));
+    }
+
+    private void showNotificationDetailDialog(Notification item) {
+        new AlertDialog.Builder(context)
+                .setTitle(item.getTitle())
+                .setMessage(item.getBody())
+                .setPositiveButton("Tutup", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     @Override
@@ -62,14 +73,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivIcon;
-        TextView tvTitle, tvBody, tvTime;
+        TextView tvTitle, tvBody;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivIcon = itemView.findViewById(R.id.iv_notif_item_icon);
             tvTitle = itemView.findViewById(R.id.tv_notif_item_title);
             tvBody = itemView.findViewById(R.id.tv_notif_item_body);
-            tvTime = itemView.findViewById(R.id.tv_notif_item_time);
         }
     }
 }

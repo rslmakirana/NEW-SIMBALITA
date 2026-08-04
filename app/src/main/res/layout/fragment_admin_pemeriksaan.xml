@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="24dp">
 
-    <!-- Top Spacer (instead of back button since it's a main tab) -->
+    <!-- Top Spacer -->
     <View
         android:layout_width="match_parent"
         android:layout_height="16dp" />
@@ -86,11 +86,11 @@
                         android:hint="Pilih tanggal..."
                         android:layout_marginBottom="16dp" />
 
-                    <!-- Berat Lahir (Kg) -->
+                    <!-- Berat Anak (Kg) -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Berat Lahir (Kg)"
+                        android:text="Berat Anak (Kg)"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:layout_marginBottom="4dp" />
@@ -107,11 +107,11 @@
                         android:singleLine="true"
                         android:layout_marginBottom="16dp" />
 
-                    <!-- Tinggi Lahir (Cm) -->
+                    <!-- Tinggi Anak (Cm) -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tinggi Lahir (Cm)"
+                        android:text="Tinggi Anak (Cm)"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:layout_marginBottom="4dp" />

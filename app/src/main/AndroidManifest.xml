@@ -64,10 +64,6 @@
             android:name=".ui.ibu.KmsActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".ui.ibu.ImunisasiActivity"
-            android:exported="false" />
-
         <!-- Admin Screens -->
         <activity
             android:name=".ui.admin.AdminMainActivity"
